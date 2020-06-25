@@ -5,55 +5,40 @@ import com.form.coverage.report.ReportGenerator
 import com.form.coverage.report.analyzable.AnalyzableReportFactory
 import com.form.diff.CodeUpdateInfo
 import org.apache.maven.plugin.AbstractMojo
-import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
+import org.apache.maven.project.MavenProject
 import java.io.File
-
-
-/**
- * Goal which touches a timestamp file.
- *
- * @goal touch
- *
- * @phase process-sources
- */
 
 @Mojo(name = "diff-coverage", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 class DiffCoverageMojo : AbstractMojo() {
-    /**
-     * Location of the file.
-     * @parameter expression="${project.build.directory}"
-     * @required
-     */
-    @Parameter(defaultValue = "\${project.build.directory}", required = true, readonly = true)
+
+    @Parameter(defaultValue = "\${project}", required = true, readonly = true)
+    private lateinit var project: MavenProject
+
+    @Parameter(property = "jacoco.dataFile", defaultValue = "\${project.build.directory}/jacoco.exec")
+    private lateinit var dataFile: File
+
+    @Parameter(defaultValue = "\${project.reporting.outputDirectory}")
     private lateinit var outputDirectory: File
 
     override fun execute() {
-        if (!outputDirectory.exists()) {
-            outputDirectory.mkdirs()
-        }
         val analyzableReports = AnalyzableReportFactory().createCoverageAnalyzerFactory(
             setOf(
                 DiffReport(
                     outputDirectory.resolve("diffCoverage").toPath(),
                     setOf(Report(ReportType.HTML, "")),
                     CodeUpdateInfo(emptyMap()),
-                    Violation(true, listOf()
-                    )
-                ),
-                FullReport(
-                    outputDirectory.resolve("fullReport").toPath(),
-                    setOf(Report(ReportType.HTML, ""))
+                    Violation(true, listOf())
                 )
             )
         )
         ReportGenerator(
-            outputDirectory.resolve("../"),
-            setOf(outputDirectory.resolve("jacoco.exec")),
-            setOf(outputDirectory.resolve("classes")),
-            setOf(outputDirectory.resolve("../src/main/kotlin"))
+            project.basedir,
+            setOf(dataFile),
+            File(project.build.outputDirectory).walk().toSet(),
+            project.compileSourceRoots.asSequence().map { File(it) }.toSet()
         ).create(analyzableReports)
     }
 }

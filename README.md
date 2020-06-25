@@ -10,6 +10,8 @@
             <executions>
                 <execution>
                     <configuration>
+                        <diffSource></diffSource>
+                        <violations></violations>
                     </configuration>
                     <goals>
                         <goal>diff-coverage</goal>
