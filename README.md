@@ -7,21 +7,21 @@
             <groupId>com.sgnat</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <configuration>
+                <diffSource>
+                    <git>compareWith</git>
+                    <file>path/to/diffFile</file>
+                    <url>http://url.com</url>
+                </diffSource>
+                <violations>
+                    <failOnViolation>true</failOnViolation>
+                    <minLines>0.7</minLines>
+                    <minBranches>0.7</minBranches>
+                    <minInstructions>0.7</minInstructions>
+                </violations>
+            </configuration>
             <executions>
                 <execution>
-                    <configuration>
-                        <diffSource>
-                            <git>compareWith</git>
-                            <file>path/to/diffFile</file>
-                            <url>http://url.com</url>
-                        </diffSource>
-                        <violations>
-                            <failOnViolation>true</failOnViolation>
-                            <minLines>0.7</minLines>
-                            <minBranches>0.7</minBranches>
-                            <minInstructions>0.7</minInstructions>
-                        </violations>
-                    </configuration>
                     <goals>
                         <goal>diff-coverage</goal>
                     </goals>

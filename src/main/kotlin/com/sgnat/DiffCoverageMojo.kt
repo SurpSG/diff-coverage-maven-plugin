@@ -23,6 +23,9 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(defaultValue = "\${project.reporting.outputDirectory}")
     private lateinit var outputDirectory: File
 
+    @Parameter(name = "diffSource", required = true)
+    private lateinit var diffSource: DiffSource
+
     override fun execute() {
         val analyzableReports = AnalyzableReportFactory().createCoverageAnalyzerFactory(
             setOf(
