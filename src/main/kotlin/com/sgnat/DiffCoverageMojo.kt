@@ -2,6 +2,7 @@ package com.sgnat
 
 import com.form.coverage.*
 import com.form.coverage.report.ReportGenerator
+import com.form.coverage.report.analyzable.AnalyzableReport
 import com.form.coverage.report.analyzable.AnalyzableReportFactory
 import com.form.diff.CodeUpdateInfo
 import com.form.diff.ModifiedLinesDiffParser
@@ -11,6 +12,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
+import org.jacoco.core.analysis.ICoverageNode
+import org.jacoco.report.check.Limit
+import org.jacoco.report.check.Rule
 import java.io.File
 
 @Mojo(name = "diff-coverage", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
@@ -32,23 +36,30 @@ class DiffCoverageMojo : AbstractMojo() {
     private lateinit var violations: ViolationsConfiguration
 
     override fun execute() {
-        println(violations)
-        val analyzableReports = AnalyzableReportFactory().createCoverageAnalyzerFactory(
-            setOf(
-                DiffReport(
-                    outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).toPath(),
-                    setOf(Report(ReportType.HTML, "html")),
-                    buildCodeUpdateInfo(),
-                    Violation(true, listOf())
-                )
-            )
-        )
         ReportGenerator(
             project.basedir,
             setOf(dataFile),
             File(project.build.outputDirectory).walk().toSet(),
             project.compileSourceRoots.asSequence().map { File(it) }.toSet()
-        ).create(analyzableReports)
+        ).create(
+            buildAnalyzableReports()
+        )
+    }
+
+    private fun buildAnalyzableReports(): Set<AnalyzableReport> {
+        return AnalyzableReportFactory().createCoverageAnalyzerFactory(
+            setOf(
+                DiffReport(
+                    outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).toPath(),
+                    setOf(Report(ReportType.HTML, "html")),
+                    buildCodeUpdateInfo(),
+                    Violation(
+                        violations.failOnViolation,
+                        listOf(buildRules())
+                    )
+                )
+            )
+        )
     }
 
     private fun buildCodeUpdateInfo(): CodeUpdateInfo {
@@ -64,6 +75,25 @@ class DiffCoverageMojo : AbstractMojo() {
                 log.debug("File $file has modified lines $rows")
             }
             CodeUpdateInfo(it)
+        }
+    }
+
+    private fun buildRules(): Rule {
+        return sequenceOf(
+            ICoverageNode.CounterEntity.INSTRUCTION to violations.minInstructions,
+            ICoverageNode.CounterEntity.BRANCH to violations.minBranches,
+            ICoverageNode.CounterEntity.LINE to violations.minLines
+        ).filter {
+            it.second > 0.0
+        }.map {
+            Limit().apply {
+                setCounter(it.first.name)
+                minimum = it.second.toString()
+            }
+        }.toList().let {
+            Rule().apply {
+                limits = it
+            }
         }
     }
 
