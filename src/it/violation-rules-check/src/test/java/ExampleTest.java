@@ -4,7 +4,7 @@ public class ExampleTest {
 
 	@Test
 	public void test() {
-		new Example().sayHello();
+		new Example().sayHello(true);
 	}
 
 }
