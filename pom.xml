@@ -14,6 +14,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.12</junit.version>
+        <maven.version>3.6.3</maven.version>
     </properties>
 
     <scm>
@@ -35,7 +36,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.0</version>
+            <version>${maven.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
@@ -46,7 +47,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.6.3</version>
+            <version>${maven.version}</version>
         </dependency>
 
         <dependency>
@@ -121,6 +122,33 @@
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <skipInvocation>false</skipInvocation>
+                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                    <postBuildHookScript>verify</postBuildHookScript>
+                    <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                    <goals>
+                        <goal>clean</goal>
+                        <goal>install</goal>
+                    </goals>
+                    <settingsFile>src/it/settings.xml</settingsFile>
+                    <extraArtifacts>
+                        <extraArtifact>org.jacoco:org.jacoco.agent:${project.version}:jar:runtime</extraArtifact>
+                    </extraArtifacts>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>

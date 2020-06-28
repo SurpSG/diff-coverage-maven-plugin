@@ -1,0 +1,9 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
+if ( buildLog.indexOf( "All coverage checks have been met." ) < 0 ) {
+System.out.println("Failed");
+    //throw new RuntimeException( "Coverage checks were not met." );
+}
+System.out.println("Ok");

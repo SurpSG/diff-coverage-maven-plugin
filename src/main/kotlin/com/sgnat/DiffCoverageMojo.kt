@@ -17,7 +17,7 @@ import org.jacoco.report.check.Limit
 import org.jacoco.report.check.Rule
 import java.io.File
 
-@Mojo(name = "diff-coverage", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+@Mojo(name = "diffCoverage", defaultPhase = LifecyclePhase.VALIDATE)
 class DiffCoverageMojo : AbstractMojo() {
 
     @Parameter(defaultValue = "\${project}", required = true, readonly = true)
