@@ -3,7 +3,7 @@ package com.sgnat
 import java.io.File
 import java.net.URL
 
-class DiffSource(
+class DiffSourceConfiguration(
     var url: URL? = null,
     var git: String? = null,
     var file: File? = null

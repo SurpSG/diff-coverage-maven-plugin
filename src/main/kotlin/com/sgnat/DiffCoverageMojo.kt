@@ -4,6 +4,8 @@ import com.form.coverage.*
 import com.form.coverage.report.ReportGenerator
 import com.form.coverage.report.analyzable.AnalyzableReportFactory
 import com.form.diff.CodeUpdateInfo
+import com.form.diff.ModifiedLinesDiffParser
+import com.sgnat.diffsource.getDiffSource
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
@@ -24,15 +26,19 @@ class DiffCoverageMojo : AbstractMojo() {
     private lateinit var outputDirectory: File
 
     @Parameter(name = "diffSource", required = true)
-    private lateinit var diffSource: DiffSource
+    private lateinit var diffSource: DiffSourceConfiguration
+
+    @Parameter(name = "violations")
+    private lateinit var violations: ViolationsConfiguration
 
     override fun execute() {
+        println(violations)
         val analyzableReports = AnalyzableReportFactory().createCoverageAnalyzerFactory(
             setOf(
                 DiffReport(
-                    outputDirectory.resolve("diffCoverage").toPath(),
-                    setOf(Report(ReportType.HTML, "")),
-                    CodeUpdateInfo(emptyMap()),
+                    outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).toPath(),
+                    setOf(Report(ReportType.HTML, "html")),
+                    buildCodeUpdateInfo(),
                     Violation(true, listOf())
                 )
             )
@@ -43,5 +49,25 @@ class DiffCoverageMojo : AbstractMojo() {
             File(project.build.outputDirectory).walk().toSet(),
             project.compileSourceRoots.asSequence().map { File(it) }.toSet()
         ).create(analyzableReports)
+    }
+
+    private fun buildCodeUpdateInfo(): CodeUpdateInfo {
+        val diffSource = getDiffSource(diffSource).apply {
+            log.debug("Starting to retrieve modified lines from $sourceDescription'")
+            saveDiffTo(outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME)).apply {
+                log.info("diff content saved to '$absolutePath'")
+            }
+        }
+        return ModifiedLinesDiffParser().collectModifiedLines(diffSource.pullDiff()).let {
+            it.forEach { (file, rows) ->
+                log.info("File $file has ${rows.size} modified lines")
+                log.debug("File $file has modified lines $rows")
+            }
+            CodeUpdateInfo(it)
+        }
+    }
+
+    companion object {
+        const val DIFF_COVERAGE_REPORT_FIR_NAME = "diffCoverage"
     }
 }
