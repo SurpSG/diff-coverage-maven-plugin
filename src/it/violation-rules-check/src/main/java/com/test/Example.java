@@ -1,3 +1,5 @@
+package com.test;
+
 public class Example {
 
 	public void sayHello(boolean a) {
