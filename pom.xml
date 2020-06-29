@@ -161,7 +161,7 @@
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
                     <postBuildHookScript>verify</postBuildHookScript>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
-                    <goals> <!-- ? -->
+                    <goals>
                         <goal>clean</goal>
                         <goal>install</goal>
                     </goals>
