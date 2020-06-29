@@ -1,4 +1,6 @@
 # diff-coverage-maven-plugin
+![CI](https://github.com/SurpSG/diff-coverage-maven-plugin/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin)
 
 ```xml
 <build>
