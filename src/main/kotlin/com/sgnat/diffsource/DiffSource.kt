@@ -42,8 +42,12 @@ internal class UrlDiffSource(
     override fun pullDiff(): List<String> = diffContent.lines()
 
     override fun saveDiffTo(dir: File): File {
+        dir.mkdirs()
         return dir.resolve(DEFAULT_PATCH_FILE_NAME).apply {
-            writeText(diffContent)
+            println("save to $this")
+            writeText(diffContent).apply {
+                println("write competed")
+            }
         }
     }
 }

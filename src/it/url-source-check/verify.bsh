@@ -1,0 +1,17 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String expectedInstructionsErrMsg = "instructions covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedLinesErrMsg = "lines covered ratio is";
+String unexpectedBranchesErrMsg = "branches covered ratio is ";
+
+String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
+if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {
+    throw new RuntimeException( "Expected message: " + expectedInstructionsErrMsg );
+}
+if ( buildLog.contains( unexpectedLinesErrMsg ) ) {
+    throw new RuntimeException( "Unexpected message: " + unexpectedLinesErrMsg );
+}
+if ( buildLog.contains( unexpectedBranchesErrMsg ) ) {
+    throw new RuntimeException( "Unexpected message: " + unexpectedBranchesErrMsg );
+}
