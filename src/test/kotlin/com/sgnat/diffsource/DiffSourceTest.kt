@@ -1,7 +1,6 @@
 package com.sgnat.diffsource
 
 import com.sgnat.DiffSourceConfiguration
-import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 import java.lang.IllegalStateException
@@ -17,5 +16,15 @@ class DiffSourceTest {
         }
 
         getDiffSource(diffSource)
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `FileDiffSource pullDiff should throw when file is dir`() {
+        FileDiffSource(File(".")).pullDiff()
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `FileDiffSource pullDiff should throw when file doesn't exist`() {
+        FileDiffSource(File("does/not/exist")).pullDiff()
     }
 }
