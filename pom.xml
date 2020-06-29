@@ -120,13 +120,6 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
 
                     <execution>
                         <id>pre-integration-test</id>
@@ -139,15 +132,34 @@
                             <propertyName>invoker.mavenOpts</propertyName>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                            <destFile>${project.build.directory}/fullCoverage.exec</destFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <phase>post-integration-test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                         <configuration>
-                            <dataFile>${project.build.directory}/jacoco-it.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                            <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-fullCoverage</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
