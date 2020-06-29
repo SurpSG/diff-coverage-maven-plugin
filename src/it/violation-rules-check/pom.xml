@@ -43,9 +43,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <configuration>
           <diffSource>
-            <git>compareWith</git>
-            <file>path/to/diffFile</file>
-            <url>http://url.com</url>
+            <file>diffFile.patch</file>
           </diffSource>
           <violations>
             <failOnViolation>true</failOnViolation>
@@ -57,7 +55,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>diff-coverage</goal>
+              <goal>diffCoverage</goal>
             </goals>
           </execution>
         </executions>

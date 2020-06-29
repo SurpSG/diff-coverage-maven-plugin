@@ -141,7 +141,7 @@
                     </goals>
                     <settingsFile>src/it/settings.xml</settingsFile>
                     <extraArtifacts>
-                        <extraArtifact>org.jacoco:org.jacoco.agent:${project.version}:jar:runtime</extraArtifact>
+                        <extraArtifact>org.jacoco:org.jacoco.agent:0.8.5:jar:runtime</extraArtifact>
                     </extraArtifacts>
                 </configuration>
                 <executions>

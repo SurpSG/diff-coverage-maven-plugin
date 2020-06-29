@@ -23,7 +23,7 @@
             <executions>
                 <execution>
                     <goals>
-                        <goal>diff-coverage</goal>
+                        <goal>diffCoverage</goal>
                     </goals>
                 </execution>
             </executions>

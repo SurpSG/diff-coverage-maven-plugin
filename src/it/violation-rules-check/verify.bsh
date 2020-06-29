@@ -1,9 +1,17 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
+String expectedInstructionsErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: instructions covered ratio is 0.5, but expected minimum is 0.7";
+String expectedLinesErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: lines covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedBranchesErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: branches covered ratio";
+
 String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
-if ( buildLog.indexOf( "All coverage checks have been met." ) < 0 ) {
-System.out.println("Failed");
-    //throw new RuntimeException( "Coverage checks were not met." );
+if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {
+    throw new RuntimeException( "Expected message: " + expectedInstructionsErrMsg );
 }
-System.out.println("Ok");
+if ( !buildLog.contains( expectedLinesErrMsg ) ) {
+    throw new RuntimeException( "Expected message: " + expectedLinesErrMsg );
+}
+if ( buildLog.contains( unexpectedBranchesErrMsg ) ) {
+    throw new RuntimeException( "Unexpected message: " + unexpectedBranchesErrMsg );
+}
