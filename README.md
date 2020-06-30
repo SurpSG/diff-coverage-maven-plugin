@@ -2,6 +2,9 @@
 ![CI](https://github.com/SurpSG/diff-coverage-maven-plugin/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin)
 
+`Diff coverage maven plugin` builds JaCoCo compatible code coverage report of new and modified code based on a provided diff. 
+The plugin able to check and fail a build if violation rules are not met.
+
 ## Install plugin
 ```xml
 <build>
@@ -33,3 +36,7 @@
     </plugins>
 </build>
 ```
+
+## Configuration
+
+## Report example
