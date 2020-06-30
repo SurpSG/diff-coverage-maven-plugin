@@ -2,16 +2,16 @@
 ![CI](https://github.com/SurpSG/diff-coverage-maven-plugin/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin)
 
+## Install plugin
 ```xml
 <build>
     <plugins>
         <plugin>
             <groupId>com.sgnat</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.1</version>
             <configuration>
                 <diffSource>
-                    <git>compareWith</git>
                     <file>path/to/diffFile</file>
                     <url>http://url.com</url>
                 </diffSource>

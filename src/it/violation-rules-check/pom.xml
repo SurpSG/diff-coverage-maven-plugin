@@ -40,7 +40,7 @@
       <plugin>
         <groupId>com.sgnat</groupId>
         <artifactId>diff-coverage-maven-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
         <configuration>
           <diffSource>
             <file>diffFile.patch</file>
