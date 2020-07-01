@@ -47,7 +47,7 @@ class DiffCoverageMojo : AbstractMojo() {
     }
 
     private fun buildAnalyzableReports(): Set<AnalyzableReport> {
-        return AnalyzableReportFactory().createCoverageAnalyzerFactory(
+        return AnalyzableReportFactory().create(
             setOf(
                 DiffReport(
                     outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).toPath(),
