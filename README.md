@@ -16,7 +16,6 @@ The plugin able to check and fail a build if violation rules are not met.
             <configuration>
                 <diffSource>
                     <file>path/to/diffFile</file>
-                    <url>http://url.com</url>
                 </diffSource>
                 <violations>
                     <failOnViolation>true</failOnViolation>
