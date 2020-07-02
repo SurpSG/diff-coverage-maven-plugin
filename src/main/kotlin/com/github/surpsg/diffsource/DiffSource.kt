@@ -52,9 +52,30 @@ internal class UrlDiffSource(
     }
 }
 
-fun getDiffSource(diffConfig: DiffSourceConfiguration): DiffSource {
+internal class GitDiffSource(
+    private val projectRoot: File,
+    private val compareWith: String
+) : DiffSource {
+
+    private val diffContent: String by lazy {
+        JgitDiff(projectRoot.resolve(".git")).obtain(compareWith)
+    }
+
+    override val sourceDescription = "Git: diff $compareWith"
+
+    override fun pullDiff(): List<String> = diffContent.lines()
+
+    override fun saveDiffTo(dir: File): File {
+        return dir.resolve(DEFAULT_PATCH_FILE_NAME).apply {
+            writeText(diffContent)
+        }
+    }
+}
+
+fun getDiffSource(projectRoot: File, diffConfig: DiffSourceConfiguration): DiffSource {
     val configurations = setOf(
         diffConfig.file?.let { FileDiffSource(it) },
+        diffConfig.git?.let { GitDiffSource(projectRoot, it) },
         diffConfig.url?.let { UrlDiffSource(it) }
     ).filterNotNull()
 
