@@ -1,0 +1,28 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>ossrh</id>
+            <username>${env.USERNAME}</username>
+            <password>${env.PASS}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+
+                <gpg.keyname>7A1971996947389A7F5FF1EA9F63CEA6D864E023</gpg.keyname>
+                <gpg.passphraseServerId>${gpg.keyname}</gpg.passphraseServerId>
+                <gpg.defaultKeyring>false</gpg.defaultKeyring>
+            </properties>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>ossrh</activeProfile>
+    </activeProfiles>
+</settings>
