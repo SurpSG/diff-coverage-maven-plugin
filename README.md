@@ -10,7 +10,7 @@ The plugin able to check and fail a build if violation rules are not met.
 <build>
     <plugins>
         <plugin>
-            <groupId>com.sgnat</groupId>
+            <groupId>com.github.surpsg</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
             <version>0.0.1</version>
             <configuration>

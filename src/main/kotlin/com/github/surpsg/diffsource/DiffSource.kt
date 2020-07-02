@@ -1,6 +1,6 @@
-package com.sgnat.diffsource
+package com.github.surpsg.diffsource
 
-import com.sgnat.DiffSourceConfiguration
+import com.github.surpsg.DiffSourceConfiguration
 import java.io.File
 import java.net.URL
 

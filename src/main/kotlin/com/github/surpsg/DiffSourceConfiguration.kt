@@ -1,4 +1,4 @@
-package com.sgnat
+package com.github.surpsg
 
 import java.io.File
 import java.net.URL

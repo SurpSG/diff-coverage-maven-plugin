@@ -1,4 +1,4 @@
-package com.sgnat
+package com.github.surpsg
 
 class ViolationsConfiguration(
     var failOnViolation: Boolean = false,
