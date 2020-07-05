@@ -1,4 +1,4 @@
-package com.sgnat
+package com.github.surpsg
 
 import com.form.coverage.*
 import com.form.coverage.report.ReportGenerator
@@ -6,7 +6,7 @@ import com.form.coverage.report.analyzable.AnalyzableReport
 import com.form.coverage.report.analyzable.AnalyzableReportFactory
 import com.form.diff.CodeUpdateInfo
 import com.form.diff.ModifiedLinesDiffParser
-import com.sgnat.diffsource.getDiffSource
+import com.github.surpsg.diffsource.getDiffSource
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
