@@ -80,3 +80,11 @@ Maven output on failed violation rules:
 [ERROR] Rule violated for bundle TestProj: instructions covered ratio is 0.4, but expected minimum is 0.7
 [ERROR] Rule violated for bundle TestProj: lines covered ratio is 0.6, but expected minimum is 0.7
 ```
+The plugin creates JaCoCo like HTML report by path `target/site/diffCoverage/html/index.html`
+
+<img src="https://user-images.githubusercontent.com/8483470/86543421-fba86100-bf26-11ea-9549-98f801d0f2b9.png" width=500  alt="DiffCoverage HTML report"/>
+
+<details>
+  <summary>JaCoCo HTML report</summary> 
+  <img src="https://user-images.githubusercontent.com/8483470/86543419-f3502600-bf26-11ea-873d-303c3a9d06dc.png" width=500 alt="JaCoCo HTML report"/>        
+</details>
