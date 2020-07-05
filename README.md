@@ -65,3 +65,18 @@ mvn clean verify
 ```
 
 ## Report example
+Maven output on failed violation rules:
+```
+[INFO] File src/main/kotlin/org/example/Hello.kt has 5 modified lines
+[INFO] New violation: Rule violated for bundle untitled: instructions covered ratio is 0.4, but expected minimum is 0.7
+[INFO] New violation: Rule violated for bundle untitled: lines covered ratio is 0.6, but expected minimum is 0.7
+[WARNING] Fail on violations: true. Found violations: 2.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.919 s
+[INFO] Finished at: 2020-07-06T00:56:33+03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Rule violated for bundle TestProj: instructions covered ratio is 0.4, but expected minimum is 0.7
+[ERROR] Rule violated for bundle TestProj: lines covered ratio is 0.6, but expected minimum is 0.7
+```
