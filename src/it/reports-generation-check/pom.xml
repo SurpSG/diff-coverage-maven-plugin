@@ -36,12 +36,8 @@
         <version>0.1.0</version>
         <configuration>
           <diffSource>
-            <url>${project.baseUri}diffFile.patch</url>
+            <file>diffFile.patch</file>
           </diffSource>
-          <violations>
-            <failOnViolation>false</failOnViolation>
-            <minInstructions>0.7</minInstructions>
-          </violations>
         </configuration>
         <executions>
           <execution>

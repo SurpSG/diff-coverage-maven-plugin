@@ -33,7 +33,7 @@ class DiffCoverageMojo : AbstractMojo() {
     private lateinit var diffSource: DiffSourceConfiguration
 
     @Parameter(name = "violations")
-    private lateinit var violations: ViolationsConfiguration
+    private var violations = ViolationsConfiguration()
 
     override fun execute() {
         ReportGenerator(
@@ -51,7 +51,11 @@ class DiffCoverageMojo : AbstractMojo() {
             setOf(
                 DiffReport(
                     outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).toPath(),
-                    setOf(Report(ReportType.HTML, "html")),
+                    setOf(
+                        Report(ReportType.HTML, "html"),
+                        Report(ReportType.XML, "diff-coverage.xml"),
+                        Report(ReportType.CSV, "diff-coverage.csv")
+                    ),
                     buildCodeUpdateInfo(),
                     Violation(
                         violations.failOnViolation,

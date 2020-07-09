@@ -6,7 +6,7 @@
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <description>
         Diff coverage maven plugin builds code coverage report of new and modified code based on a provided diff
     </description>

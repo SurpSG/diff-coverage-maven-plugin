@@ -1,0 +1,18 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+File reportsDir = new File(basedir, "target/site/diffCoverage");
+File htmlReportDir = new File( reportsDir, "/html" );
+if ( !htmlReportDir.exists() || !htmlReportDir.isDirectory() ) {
+    throw new RuntimeException( "Html report dir wasn't found: " + htmlReportDir.getAbsolutePath() );
+}
+
+File xmlReportFile = new File( reportsDir, "diff-coverage.xml" );
+if ( !xmlReportFile.exists() || !xmlReportFile.isFile() ) {
+    throw new RuntimeException( "Xml report file wasn't found: " + xmlReportFile.getAbsolutePath() );
+}
+
+File csvReportFile = new File( reportsDir, "diff-coverage.csv" );
+if ( !csvReportFile.exists() || !csvReportFile.isFile() ) {
+    throw new RuntimeException( "CSV report file wasn't found: " + csvReportFile.getAbsolutePath() );
+}
