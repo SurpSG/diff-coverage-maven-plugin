@@ -7,4 +7,8 @@ class DiffSourceConfiguration(
     var url: URL? = null,
     var git: String? = null,
     var file: File? = null
-)
+) {
+    override fun toString(): String {
+        return "DiffSourceConfiguration(url=$url, git=$git, file=$file)"
+    }
+}

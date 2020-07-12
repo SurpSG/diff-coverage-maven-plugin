@@ -19,7 +19,6 @@ import java.io.File
 import java.lang.IllegalArgumentException
 import java.util.logging.Logger
 
-
 class JgitDiff(workingDir: File) {
 
     private val repository: Repository = initRepository(workingDir)

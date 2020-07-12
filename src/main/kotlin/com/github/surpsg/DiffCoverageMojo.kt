@@ -69,8 +69,10 @@ class DiffCoverageMojo : AbstractMojo() {
     private fun buildCodeUpdateInfo(): CodeUpdateInfo {
         val diffSource = getDiffSource(project.basedir, diffSource).apply {
             log.debug("Starting to retrieve modified lines from $sourceDescription'")
-            saveDiffTo(outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME)).apply {
-                log.info("diff content saved to '$absolutePath'")
+            outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).apply {
+                mkdirs()
+                val savedTo = saveDiffTo(this)
+                log.info("diff content saved to '${savedTo.absolutePath}'")
             }
         }
         return ModifiedLinesDiffParser().collectModifiedLines(diffSource.pullDiff()).let {
