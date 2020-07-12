@@ -240,6 +240,7 @@
                 <artifactId>diff-coverage-maven-plugin</artifactId>
                 <version>0.1.0</version>
                 <configuration>
+                    <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
                         <git>${diff.source}</git>
                     </diffSource>
