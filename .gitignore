@@ -25,6 +25,7 @@ hs_err_pid*
 *.diff
 *.patch
 
+target/
 build/
 out/
 .idea/
