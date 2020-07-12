@@ -1,0 +1,37 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+File rootProject = new File("target/it/git-diff-support");
+System.out.println(rootProject.getAbsolutePath());
+
+// init git repository
+Repository repository = FileRepositoryBuilder.create(new File(rootProject, ".git"));
+repository.getConfig().setEnum(
+        ConfigConstants.CONFIG_CORE_SECTION,
+        null,
+        ConfigConstants.CONFIG_KEY_AUTOCRLF,
+        File.separator.equals("\r\n") ? CoreConfig.AutoCRLF.TRUE : CoreConfig.AutoCRLF.INPUT
+);
+repository.create();
+
+// commit all files
+Git git;
+try {
+    git = new Git(repository);
+    git.add().addFilepattern(".").call();
+    git.commit().setMessage("Add all").call();
+} finally {
+    git.close();
+}
+
+// modify java class
+File srcDir = new File(rootProject, "src/main/java/com/test/");
+File scrFile = new File(srcDir, "Example.java");
+scrFile.delete();
+new File(srcDir, "Example.new").renameTo(scrFile);
