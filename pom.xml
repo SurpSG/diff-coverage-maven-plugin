@@ -60,6 +60,8 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.12</junit.version>
         <maven.version>3.6.3</maven.version>
+
+        <diff.source>HEAD</diff.source>
     </properties>
 
     <pluginRepositories>
@@ -229,6 +231,29 @@
                         <goals>
                             <goal>install</goal>
                             <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.surpsg</groupId>
+                <artifactId>diff-coverage-maven-plugin</artifactId>
+                <version>0.1.0</version>
+                <configuration>
+                    <diffSource>
+                        <git>${diff.source}</git>
+                    </diffSource>
+                    <violations>
+                        <failOnViolation>true</failOnViolation>
+                        <minLines>0.9</minLines>
+                        <minBranches>0.9</minBranches>
+                        <minInstructions>0.9</minInstructions>
+                    </violations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>diffCoverage</goal>
                         </goals>
                     </execution>
                 </executions>
