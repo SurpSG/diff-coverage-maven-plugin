@@ -30,18 +30,20 @@ The plugin does the next steps:
             <artifactId>diff-coverage-maven-plugin</artifactId>
             <version>0.0.1</version>
             <configuration>
-                
-                <!-- Required. diff content source. only one of file or URL is allowed -->
+                <!-- Required. diff content source. only one of file, URL or Git is allowed -->
                 <diffSource>
                     <!-- path to diff file -->
                     <file>path/to/diffFile</file>
+                    
+                    <!-- branch, revision or tag -->
+                    <git>HEAD</git> <!-- compares current HEAD and all uncommited with this <git> -->
                 
                     <!-- URL to get diff content by. Used GET method -->
                     <url>http://url.com</url>
                 </diffSource>
                 
-                <violations> <!-- Optional -->
-                    
+                <!-- Optional -->
+                <violations> 
                     <!-- Default 'false'. Fail build if violation rules weren't met  -->
                     <failOnViolation>true</failOnViolation>
                     
@@ -49,7 +51,6 @@ The plugin does the next steps:
                     <minLines>0.0</minLines>
                     <minBranches>0.7</minBranches>
                     <minInstructions>1.0</minInstructions>
-
                 </violations>
             </configuration>
             <executions>

@@ -13,9 +13,10 @@ class DiffSourceTest {
         val diffSource = DiffSourceConfiguration().apply {
             file = File(".")
             url = URL("http://test.com")
+            git = "HEAD"
         }
 
-        getDiffSource(diffSource)
+        getDiffSource(File(""), diffSource)
     }
 
     @Test(expected = RuntimeException::class)

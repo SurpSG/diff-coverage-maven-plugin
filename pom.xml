@@ -105,6 +105,11 @@
             <artifactId>jacoco-filtering-extension</artifactId>
             <version>0.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>5.7.0.202003110725-r</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -210,6 +215,8 @@
                 <configuration>
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
                     <postBuildHookScript>verify</postBuildHookScript>
+                    <preBuildHookScript>setup</preBuildHookScript>
+                    <addTestClassPath>true</addTestClassPath>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
                     <goals>
                         <goal>clean</goal>
