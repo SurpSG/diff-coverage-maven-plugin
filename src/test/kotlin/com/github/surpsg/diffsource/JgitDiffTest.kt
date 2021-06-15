@@ -10,8 +10,9 @@ class JgitDiffTest {
         JgitDiff(File("unknown/file/location"))
     }
 
-    @Test(expected = IllegalStateException::class)
+    @Test(expected = IllegalArgumentException::class)
     fun `jgit should throw when no such commit`() {
-        JgitDiff(File(".")).obtain("UNKNOWN_COMMIT")
+        val jgitDiff = JgitDiff(File("."))
+        jgitDiff.obtain("UNKNOWN_COMMIT")
     }
 }
