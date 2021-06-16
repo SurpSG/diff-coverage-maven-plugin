@@ -235,7 +235,7 @@
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>0.1.0</version>
+                <version>0.1.1</version>
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
