@@ -1,6 +1,9 @@
 package com.github.surpsg
 
-import com.form.coverage.*
+import com.form.coverage.DiffReport
+import com.form.coverage.Report
+import com.form.coverage.ReportType
+import com.form.coverage.Violation
 import com.form.coverage.report.ReportGenerator
 import com.form.coverage.report.analyzable.AnalyzableReport
 import com.form.coverage.report.analyzable.AnalyzableReportFactory
