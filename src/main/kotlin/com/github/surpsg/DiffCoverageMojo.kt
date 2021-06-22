@@ -15,6 +15,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
+import org.codehaus.plexus.util.FileUtils
 import org.jacoco.core.analysis.ICoverageNode
 import org.jacoco.report.check.Limit
 import org.jacoco.report.check.Rule
@@ -26,8 +27,17 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(defaultValue = "\${project}", required = true, readonly = true)
     private lateinit var project: MavenProject
 
+    @Parameter(property = "reactorProjects", required = true, readonly = true)
+    private lateinit var reactorProjects: MutableList<MavenProject>
+
     @Parameter(property = "jacoco.dataFile", defaultValue = "\${project.build.directory}/jacoco.exec")
     private lateinit var dataFile: File
+
+    @Parameter(property = "jacoco.dataFileIncludes", required = false)
+    private var dataFileIncludes: String? = null
+
+    @Parameter(property = "jacoco.dataFileExcludes", required = false)
+    private var dataFileExcludes: String? = null
 
     @Parameter(defaultValue = "\${project.reporting.outputDirectory}")
     private lateinit var outputDirectory: File
@@ -39,14 +49,33 @@ class DiffCoverageMojo : AbstractMojo() {
     private var violations = ViolationsConfiguration()
 
     override fun execute() {
+
+        var rootProject = reactorProjects[0]
+        log.debug("BASE DIR:" + rootProject.basedir)
+        log.debug("CLASSES:" + reactorProjects.map { File(it.build.outputDirectory) })
+        log.debug("SRCs:" + reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it)})
+        log.debug("DATASETS: " + buildDataFileSets(rootProject.basedir))
         ReportGenerator(
-            project.basedir,
-            setOf(dataFile),
-            File(project.build.outputDirectory).walk().toSet(),
-            project.compileSourceRoots.asSequence().map { File(it) }.toSet()
+            rootProject.basedir,
+            buildDataFileSets(rootProject.basedir),
+            reactorProjects.map { File(it.build.outputDirectory) }.toSet(),
+            reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it)}.toSet()
         ).create(
             buildAnalyzableReports()
         )
+    }
+
+    private fun buildDataFileSets(basedir : File) : Set<File> {
+
+        var dataFileSets = mutableSetOf<File>()
+        if(dataFileIncludes == null && dataFileExcludes == null){
+            dataFileSets.add(dataFile);
+        }
+        else{
+            var fileSets = FileUtils.getFiles(basedir, dataFileIncludes, dataFileExcludes)
+            dataFileSets.addAll(fileSets)
+        }
+        return dataFileSets
     }
 
     private fun buildAnalyzableReports(): Set<AnalyzableReport> {
