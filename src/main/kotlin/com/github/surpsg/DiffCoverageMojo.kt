@@ -24,9 +24,6 @@ import java.io.File
 @Mojo(name = "diffCoverage", defaultPhase = LifecyclePhase.VERIFY)
 class DiffCoverageMojo : AbstractMojo() {
 
-    @Parameter(defaultValue = "\${project}", required = true, readonly = true)
-    private lateinit var project: MavenProject
-
     @Parameter(property = "reactorProjects", required = true, readonly = true)
     private lateinit var reactorProjects: MutableList<MavenProject>
 
@@ -48,35 +45,41 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(name = "violations")
     private var violations = ViolationsConfiguration()
 
-    override fun execute() {
+    private val rootProjectDir: File
+        get() = reactorProjects[0].basedir
 
-        var rootProject = reactorProjects[0]
-        log.debug("BASE DIR:" + rootProject.basedir)
-        log.debug("CLASSES:" + reactorProjects.map { File(it.build.outputDirectory) })
-        log.debug("SRCs:" + reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it)})
-        log.debug("DATASETS: " + buildDataFileSets(rootProject.basedir))
+    override fun execute() {
+        val execFiles: Set<File> = collectExecFiles()
+        val classesSources: Set<File> = reactorProjects.map { File(it.build.outputDirectory) }.toSet()
+        val sources: Set<File> = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
+
+        logPluginProperties(execFiles, classesSources, sources)
         ReportGenerator(
-            rootProject.basedir,
-            buildDataFileSets(rootProject.basedir),
-            reactorProjects.map { File(it.build.outputDirectory) }.toSet(),
-            reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it)}.toSet()
+            rootProjectDir,
+            execFiles,
+            classesSources,
+            sources
         ).create(
             buildAnalyzableReports()
         )
     }
 
-    private fun buildDataFileSets(basedir : File) : Set<File> {
-
-        var dataFileSets = mutableSetOf<File>()
-        if(dataFileIncludes == null && dataFileExcludes == null){
-            dataFileSets.add(dataFile);
+    private fun logPluginProperties(
+        execFiles: Set<File>,
+        classesSources: Set<File>,
+        sources: Set<File>
+    ) {
+        log.apply {
+            debug("Root dir: $rootProjectDir")
+            debug("Classes dirs: $classesSources")
+            debug("Sources: $sources")
+            debug("Exec files: $execFiles")
         }
-        else{
-            var fileSets = FileUtils.getFiles(basedir, dataFileIncludes, dataFileExcludes)
-            dataFileSets.addAll(fileSets)
-        }
-        return dataFileSets
     }
+
+    private fun collectExecFiles(): Set<File> = dataFileIncludes?.let {
+        FileUtils.getFiles(rootProjectDir, it, dataFileExcludes).toSet()
+    } ?: setOf(dataFile)
 
     private fun buildAnalyzableReports(): Set<AnalyzableReport> {
         return AnalyzableReportFactory().create(
@@ -99,7 +102,7 @@ class DiffCoverageMojo : AbstractMojo() {
     }
 
     private fun buildCodeUpdateInfo(): CodeUpdateInfo {
-        val diffSource = getDiffSource(project.basedir, diffSource).apply {
+        val diffSource = getDiffSource(rootProjectDir, diffSource).apply {
             log.debug("Starting to retrieve modified lines from $sourceDescription'")
             outputDirectory.resolve(DIFF_COVERAGE_REPORT_FIR_NAME).apply {
                 mkdirs()
