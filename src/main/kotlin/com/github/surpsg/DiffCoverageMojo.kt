@@ -77,9 +77,13 @@ class DiffCoverageMojo : AbstractMojo() {
         }
     }
 
-    private fun collectExecFiles(): Set<File> = dataFileIncludes?.let {
-        FileUtils.getFiles(rootProjectDir, it, dataFileExcludes).toSet()
-    } ?: setOf(dataFile)
+    private fun collectExecFiles(): Set<File> {
+        return if (dataFileIncludes == null) {
+            setOf(dataFile)
+        } else {
+            FileUtils.getFiles(rootProjectDir, dataFileIncludes, dataFileExcludes).toSet()
+        }
+    }
 
     private fun buildAnalyzableReports(): Set<AnalyzableReport> {
         return AnalyzableReportFactory().create(
