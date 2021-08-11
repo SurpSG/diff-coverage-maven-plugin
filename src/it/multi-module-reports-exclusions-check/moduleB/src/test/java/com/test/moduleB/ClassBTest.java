@@ -1,11 +1,9 @@
 package com.test.moduleB;
 import org.junit.Test;
 
-public class ExampleTest {
-
+public class ClassBTest {
 	@Test
 	public void test() {
-		new Example().sayHello(true);
+		new ClassB().sayHello();
 	}
-
 }

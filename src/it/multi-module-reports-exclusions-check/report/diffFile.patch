@@ -1,0 +1,57 @@
+Index: src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/Example.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/Example.java b/src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/ClassB.java
+rename from src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/Example.java
+rename to src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/ClassB.java
+--- a/src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/Example.java	(revision 72796eb0c10e73bb0883db1a420cc8ab20cfc2d6)
++++ b/src/it/multi-module-reports-exclusions-check/moduleB/src/main/java/com/test/moduleB/ClassB.java	(date 1628722971598)
+@@ -1,14 +1,7 @@
+ package com.test.moduleB;
+
+-public class Example {
+-
+-	public void sayHello(boolean a) {
+-		if (a) {
+-			System.out.println("if");
+-		} else {
+-			System.out.println("else");
+-		}
+-		System.out.println("return");
++public class ClassB {
++	public int sayHello() {
++		return 2;
+ 	}
+-
+ }
+Index: src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/Example.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/Example.java b/src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/ClassA.java
+rename from src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/Example.java
+rename to src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/ClassA.java
+--- a/src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/Example.java	(revision 72796eb0c10e73bb0883db1a420cc8ab20cfc2d6)
++++ b/src/it/multi-module-reports-exclusions-check/moduleA/src/main/java/com/test/moduleA/ClassA.java	(date 1628722971618)
+@@ -1,14 +1,7 @@
+ package com.test.moduleA;
+
+-public class Example {
+-
+-	public void sayHello(boolean a) {
+-		if (a) {
+-			System.out.println("if");
+-		} else {
+-			System.out.println("else");
+-		}
+-		System.out.println("return");
+-	}
+-
++public class ClassA {
++    public int sayHello() {
++        return 1;
++    }
+ }

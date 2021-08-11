@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>jacoco</groupId>
   <artifactId>it-check-passes-report</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -38,33 +37,13 @@
           <diffSource>
             <file>diffFile.patch</file>
           </diffSource>
-          <dataFileIncludes>**/coverage-reports/custom-jacoco-name.exec</dataFileIncludes>
+          <dataFileIncludes>**/custom-jacoco-name.exec</dataFileIncludes>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>diffCoverage</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
-        <executions>
-          <execution>
-            <id>report-aggregate</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report-aggregate</goal>
-            </goals>
-            <configuration>
-              <dataFileIncludes>
-                <dataFileInclude>**/coverage-reports/custom-jacoco-name.exec</dataFileInclude>
-              </dataFileIncludes>
-              <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
-            </configuration>
           </execution>
         </executions>
       </plugin>
