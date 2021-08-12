@@ -28,7 +28,7 @@
     <scm>
         <url>https://github.com/SurpSG/diff-coverage-maven-plugin</url>
         <connection>scm:git:git://github.com/SurpSG/diff-coverage-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://github.com:SurpSG/diff-coverage-maven-plugin.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/SurpSG/diff-coverage-maven-plugin.git</developerConnection>
     </scm>
     <issueManagement>
         <system>Github</system>
