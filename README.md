@@ -1,6 +1,6 @@
 # diff-coverage-maven-plugin
 
-![CI](https://github.com/SurpSG/diff-coverage-maven-plugin/workflows/CI/badge.svg)
+[![Release](https://github.com/SurpSG/diff-coverage-maven-plugin/actions/workflows/release.yml/badge.svg)](https://github.com/SurpSG/diff-coverage-maven-plugin/actions/workflows/release.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.surpsg/diff-coverage-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.surpsg%22%20AND%20a:%22diff-coverage-maven-plugin%22)
 [![codecov](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/SurpSG/diff-coverage-maven-plugin)
 
