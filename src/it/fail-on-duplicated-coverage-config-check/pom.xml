@@ -43,8 +43,8 @@
             <file>diffFile.patch</file>
           </diffSource>
           <violations>
-            <failOnViolation>true</failOnViolation>
             <minCoverage>0.7</minCoverage>
+            <minLines>0.9</minLines>
           </violations>
         </configuration>
         <executions>

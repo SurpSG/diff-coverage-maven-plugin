@@ -1,0 +1,17 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String expectedErrMsgHead = "Simultaneous configuration of 'minCoverage' and any of [minCoverage, minBranches, minInstructions] is not allowed.";
+String expectedErrorMsgPart1 = "violations.minCoverage = 0.7";
+String expectedErrorMsgPart2 = "violations.minLines = 0.9";
+
+String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
+if ( !buildLog.contains( expectedErrMsgHead ) ) {
+    throw new RuntimeException( "Expected message: " + expectedErrMsgHead );
+}
+if ( !buildLog.contains( expectedErrorMsgPart1 ) ) {
+    throw new RuntimeException( "Expected message: " + expectedErrorMsgPart1 );
+}
+if ( !buildLog.contains( expectedErrorMsgPart2 ) ) {
+    throw new RuntimeException( "Unexpected message: " + expectedErrorMsgPart2 );
+}
