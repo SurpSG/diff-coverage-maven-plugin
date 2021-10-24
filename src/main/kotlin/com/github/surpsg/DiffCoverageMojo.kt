@@ -88,16 +88,54 @@ class DiffCoverageMojo : AbstractMojo() {
                 csv = ReportConfig(enabled = true, "diff-coverage.csv"),
                 xml = ReportConfig(enabled = true, "diff-coverage.xml")
             ),
-            violationRuleConfig = ViolationRuleConfig(
-                minBranches = violations.minBranches,
-                minInstructions = violations.minInstructions,
-                minLines = violations.minLines,
-                failOnViolation = violations.failOnViolation
-            ),
+            violationRuleConfig = buildViolationRuleConfig(),
             execFiles = collectExecFiles(),
             classFiles = reactorProjects.map { File(it.build.outputDirectory) }.toSet(),
             sourceFiles = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
         )
+    }
+
+    private fun buildViolationRuleConfig(): ViolationRuleConfig {
+        val isMinCoverageSet: Boolean = violations.minCoverage != MIN_COVERAGE_PROPERTY_DEFAULT
+        val configuredProperties: Set<Pair<String, Double>> = collectConfiguredCoveragePropertiesNames()
+
+        if (isMinCoverageSet && configuredProperties.isNotEmpty()) {
+            val conflictingProperties = configuredProperties.joinToString(separator = "\n") {
+                "violations.${it.first} = ${it.second}"
+            }
+            throw IllegalArgumentException("""
+                
+                Simultaneous configuration of 'minCoverage' and any of [minCoverage, minBranches, minInstructions] is not allowed.
+                violations.minCoverage = ${violations.minCoverage}
+                $conflictingProperties
+            """.trimIndent())
+        }
+
+        return if (isMinCoverageSet) {
+            ViolationRuleConfig(
+                minBranches = violations.minCoverage,
+                minInstructions = violations.minCoverage,
+                minLines = violations.minCoverage,
+                failOnViolation = violations.failOnViolation
+            )
+        } else {
+            ViolationRuleConfig(
+                minBranches = violations.minBranches,
+                minInstructions = violations.minInstructions,
+                minLines = violations.minLines,
+                failOnViolation = violations.failOnViolation
+            )
+        }
+    }
+
+    private fun collectConfiguredCoveragePropertiesNames(): Set<Pair<String, Double>> {
+        return sequenceOf(
+            "minLines" to violations.minLines,
+            "minBranches" to violations.minBranches,
+            "minInstructions" to violations.minInstructions
+        ).filter {
+            it.second > 0.0
+        }.toSet()
     }
 
     private fun <T> T?.asStringOrEmpty(toString: T.() -> String): String = if (this != null) {
