@@ -1,0 +1,9 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String unexpectedOutputMsg = "[ERROR] Rule violated for bundle exclude-classes";
+
+String buildLog = FileUtils.fileRead(new File(basedir, "build.log"));
+if (buildLog.contains(unexpectedOutputMsg)) {
+    throw new RuntimeException("Unexpected message: " + unexpectedOutputMsg);
+}
