@@ -29,6 +29,12 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(property = "jacoco.dataFileExcludes", required = false)
     private var dataFileExcludes: String? = null
 
+    @Parameter(property = "jacoco.includes", required = false, defaultValue = "**")
+    private var includes: List<String>? = emptyList();
+
+    @Parameter(property = "jacoco.excludes", required = false, defaultValue = "")
+    private var excludes: List<String>? = emptyList()
+
     @Parameter(defaultValue = "\${project.reporting.outputDirectory}")
     private lateinit var outputDirectory: File
 
@@ -90,7 +96,15 @@ class DiffCoverageMojo : AbstractMojo() {
             ),
             violationRuleConfig = buildViolationRuleConfig(),
             execFiles = collectExecFiles(),
-            classFiles = reactorProjects.map { File(it.build.outputDirectory) }.toSet(),
+            reactorProjects
+                .map {
+                    val outputDir = File(it.build.outputDirectory)
+                    val includePattern = includes?.joinToString(",")
+                    val excludePattern = excludes?.joinToString(",")
+                    FileUtils.getFiles(outputDir, includePattern, excludePattern)
+                }
+                .flatten()
+                .toSet(),
             sourceFiles = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
         )
     }
