@@ -29,6 +29,12 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(property = "jacoco.dataFileExcludes", required = false)
     private var dataFileExcludes: String? = null
 
+    @Parameter(defaultValue = ALL_FILES_PATTERN, required = false)
+    private lateinit var includes: List<String>
+
+    @Parameter(required = false)
+    private var excludes: List<String> = emptyList()
+
     @Parameter(defaultValue = "\${project.reporting.outputDirectory}")
     private lateinit var outputDirectory: File
 
@@ -66,14 +72,6 @@ class DiffCoverageMojo : AbstractMojo() {
         }
     }
 
-    private fun collectExecFiles(): Set<File> {
-        return if (dataFileIncludes == null) {
-            setOf(dataFile)
-        } else {
-            FileUtils.getFiles(rootProjectDir, dataFileIncludes, dataFileExcludes).toSet()
-        }
-    }
-
     private fun buildDiffCoverageConfig(): DiffCoverageConfig {
         return DiffCoverageConfig(
             reportName = rootProjectDir.name,
@@ -90,7 +88,7 @@ class DiffCoverageMojo : AbstractMojo() {
             ),
             violationRuleConfig = buildViolationRuleConfig(),
             execFiles = collectExecFiles(),
-            classFiles = reactorProjects.map { File(it.build.outputDirectory) }.toSet(),
+            classFiles = collectClassesFiles().throwIfEmpty("Classes collection passed to Diff-Coverage"),
             sourceFiles = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
         )
     }
@@ -103,12 +101,14 @@ class DiffCoverageMojo : AbstractMojo() {
             val conflictingProperties = configuredProperties.joinToString(separator = "\n") {
                 "violations.${it.first} = ${it.second}"
             }
-            throw IllegalArgumentException("""
+            throw IllegalArgumentException(
+                """
                 
                 Simultaneous configuration of 'minCoverage' and any of [minCoverage, minBranches, minInstructions] is not allowed.
                 violations.minCoverage = ${violations.minCoverage}
                 $conflictingProperties
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
 
         return if (isMinCoverageSet) {
@@ -138,10 +138,49 @@ class DiffCoverageMojo : AbstractMojo() {
         }.toSet()
     }
 
+    private fun collectExecFiles(): Set<File> {
+        return if (dataFileIncludes == null) {
+            setOf(dataFile)
+        } else {
+            FileUtils.getFiles(rootProjectDir, dataFileIncludes, dataFileExcludes).toSet()
+        }
+    }
+
+    private fun collectClassesFiles(): Set<File> {
+        val includePattern: String = includes.joinToString(",")
+        val excludePattern: String = excludes.joinToString(",")
+        return if (excludePattern.isEmpty() && includePattern == ALL_FILES_PATTERN) {
+            reactorProjects.map { File(it.build.outputDirectory) }.toSet()
+        } else {
+            collectFilteredFiles(includePattern, excludePattern)
+        }
+    }
+
+    private fun collectFilteredFiles(includePattern: String, excludePattern: String?): Set<File> {
+        return reactorProjects.asSequence().flatMap { project ->
+            FileUtils.getFiles(
+                File(project.build.outputDirectory),
+                includePattern,
+                excludePattern
+            )
+        }.toSet()
+    }
+
     private fun <T> T?.asStringOrEmpty(toString: T.() -> String): String = if (this != null) {
         toString(this)
     } else {
         ""
+    }
+
+    private fun <T> Set<T>.throwIfEmpty(collectionDescription: String): Set<T> {
+        if (isEmpty()) {
+            throw RuntimeException("$collectionDescription is empty")
+        }
+        return this
+    }
+
+    private companion object {
+        const val ALL_FILES_PATTERN = "**"
     }
 
 }
