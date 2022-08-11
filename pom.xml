@@ -58,8 +58,8 @@
         <kotlin.version>1.4.32</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.code.style>official</kotlin.code.style>
-        <junit.version>4.13.1</junit.version>
-        <maven.version>3.6.3</maven.version>
+        <junit.version>4.13.2</junit.version>
+        <maven.version>3.8.6</maven.version>
 
         <diff.source>HEAD</diff.source>
     </properties>
@@ -157,13 +157,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.6.4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.8</version>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -219,13 +219,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.3.0</version>
                 <configuration>
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
                     <postBuildHookScript>verify</postBuildHookScript>
                     <preBuildHookScript>setup</preBuildHookScript>
                     <addTestClassPath>true</addTestClassPath>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                    <pomIncludes>
+                        <pomInclude>*/pom.xml</pomInclude>
+                    </pomIncludes>
                     <goals>
                         <goal>clean</goal>
                         <goal>install</goal>
@@ -244,7 +247,7 @@
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1</version>
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
