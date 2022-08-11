@@ -263,9 +263,7 @@
                     </diffSource>
                     <violations>
                         <failOnViolation>true</failOnViolation>
-                        <minLines>0.9</minLines>
-                        <minBranches>0.9</minBranches>
-                        <minInstructions>0.9</minInstructions>
+                        <minCoverage>0.9</minCoverage>
                     </violations>
                 </configuration>
                 <executions>
