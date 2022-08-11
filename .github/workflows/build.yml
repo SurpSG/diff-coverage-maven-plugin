@@ -29,4 +29,4 @@ jobs:
         java-version: 1.8
 
     - name: Build with Maven
-      run: mvn install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF"
+      run: mvn install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF" -e
