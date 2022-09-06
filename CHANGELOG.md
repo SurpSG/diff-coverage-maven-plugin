@@ -1,5 +1,14 @@
 # Diff-Coverage Maven plugin
 
+## [<NEXT-RELEASE>]
+
+### Added
+- no new features
+
+## Dependencies updates
+- no updates
+
+
 ## 0.3.0
 
 ### Added

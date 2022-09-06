@@ -6,7 +6,7 @@
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
-    <version>0.3.0</version>
+    <version>0.4.0-SNAPSHOT</version>
     <description>
         Diff coverage maven plugin builds code coverage report of new and modified code based on a provided diff
     </description>
@@ -255,7 +255,7 @@
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>0.2.1</version>
+                <version>0.3.0</version>
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
