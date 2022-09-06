@@ -1,6 +1,6 @@
 # Diff-Coverage Maven plugin
 
-## [<NEXT-RELEASE>]
+## 0.3.0
 
 ### Added
 - The plugin supports exclude/include classes
