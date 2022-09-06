@@ -38,6 +38,7 @@
       <plugin>
         <groupId>com.github.surpsg</groupId>
         <artifactId>diff-coverage-maven-plugin</artifactId>
+        <version>0.3.0-SNAPSHOT</version>
         <configuration>
           <diffSource>
             <file>diffFile.patch</file>
