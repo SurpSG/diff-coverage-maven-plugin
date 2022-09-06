@@ -62,6 +62,18 @@ The plugin does the next steps:
                 
                 <!-- Optional. Exec files exclude pattern -->
                 <dataFileExcludes>**/custom/**/exclude/*.exec</dataFileExcludes>
+                
+                <!-- Optional. Ant patterns by which we include classes for coverage report. -->
+                <includes>
+                    <include>**/package/**</include>
+                    <include>**/ClassNamePrefix*</include>
+                </includes>
+                <!-- Optional. Ant patterns by which we exclude classes from coverage report. -->
+                <excludes>
+                    <exclude>**/exclude/**/ClassName.class</exclude>
+                </excludes>
+                <!-- If neither <includes> nor <excludes> are specified then we pass all classes for coverage report -->
+                
             </configuration>
             <executions>
                 <execution>

@@ -1,0 +1,36 @@
+===================================================================
+--- a/src/it/exclude-classes/src/main/java/com/include/Example.java
++++ b/src/it/exclude-classes/src/main/java/com/include/Example.java
+@@ -3,7 +3,7 @@
+ public class Example {
+
+ 	public void sayHello() {
+-		System.out.println("");
++		System.out.println("hello");
+ 	}
+
+ }
+===================================================================
+--- a/src/it/exclude-classes/src/main/java/com/exclude/ExcludeMe2.java
++++ b/src/it/exclude-classes/src/main/java/com/exclude/ExcludeMe2.java
+@@ -3,7 +3,7 @@
+ public class ExcludeMe2 {
+
+ 	public void excluded() {
+-		System.out.println("");
++		System.out.println("this method must not be invoked from tests");
+ 	}
+
+ }
+===================================================================
+--- a/src/it/exclude-classes/src/main/java/com/exclude/ExcludeMe.java
++++ b/src/it/exclude-classes/src/main/java/com/exclude/ExcludeMe.java
+@@ -3,7 +3,7 @@
+ public class ExcludeMe {
+
+ 	public void excluded() {
+-		System.out.println("");
++		System.out.println("this method must not be invoked from tests");
+ 	}
+
+ }
