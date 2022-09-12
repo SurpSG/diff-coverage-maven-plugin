@@ -39,5 +39,6 @@ jobs:
       with:
         name: int-tests-artifacts
         path: |
+          target/site/diff.patch
           target/it/*/build.log
           target/it/*/target/site

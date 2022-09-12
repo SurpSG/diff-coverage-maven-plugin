@@ -51,7 +51,7 @@ class DiffCoverageMojo : AbstractMojo() {
         val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
             logPluginProperties(this)
         }
-
+        println("for diff")
         ReportGenerator(rootProjectDir, diffCoverageConfig).apply {
             val reportDir = File(diffCoverageConfig.reportsConfig.baseReportDir)
             reportDir.mkdirs()
