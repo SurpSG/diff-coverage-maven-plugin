@@ -28,7 +28,7 @@ The plugin does the next steps:
         <plugin>
             <groupId>com.github.surpsg</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
-            <version>0.2.1</version>
+            <version>0.3.0</version>
             <configuration>
                 <!-- Required. diff content source. only one of file, URL or Git is allowed -->
                 <diffSource>
