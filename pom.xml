@@ -227,6 +227,8 @@
                     <postBuildHookScript>verify</postBuildHookScript>
                     <preBuildHookScript>setup</preBuildHookScript>
                     <addTestClassPath>true</addTestClassPath>
+                    <showErrors>true</showErrors>
+                    <streamLogsOnFailures>true</streamLogsOnFailures>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
                     <pomExcludes>
                         <!-- Temporary exclude this tests.

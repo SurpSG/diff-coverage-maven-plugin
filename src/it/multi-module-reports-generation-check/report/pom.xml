@@ -37,6 +37,9 @@
             <file>diffFile.patch</file>
           </diffSource>
           <dataFileIncludes>**/custom-jacoco-name.exec</dataFileIncludes>
+          <excludes>
+            <exclude>**/exclude/**/ExcludeMe.class</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
