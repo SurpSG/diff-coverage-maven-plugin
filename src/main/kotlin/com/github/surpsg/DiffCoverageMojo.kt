@@ -157,13 +157,16 @@ class DiffCoverageMojo : AbstractMojo() {
     }
 
     private fun collectFilteredFiles(includePattern: String, excludePattern: String?): Set<File> {
-        return reactorProjects.asSequence().flatMap { project ->
-            FileUtils.getFiles(
-                File(project.build.outputDirectory),
-                includePattern,
-                excludePattern
-            )
-        }.toSet()
+        return reactorProjects.asSequence()
+            .map { project -> File(project.build.outputDirectory) }
+            .filter { outputDirectory -> outputDirectory.exists() }
+            .flatMap { outputDirectory ->
+                FileUtils.getFiles(
+                    outputDirectory,
+                    includePattern,
+                    excludePattern
+                )
+            }.toSet()
     }
 
     private fun <T> T?.asStringOrEmpty(toString: T.() -> String): String = if (this != null) {

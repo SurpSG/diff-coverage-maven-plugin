@@ -1,5 +1,11 @@
 # Diff-Coverage Maven plugin
 
+## 0.3.1
+
+### Fixes
+- Fixed build failure when include/exclude is used and subproject doesn't have classes directory #28
+
+
 ## 0.3.0
 
 ### Added
