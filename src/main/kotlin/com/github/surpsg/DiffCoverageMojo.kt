@@ -48,7 +48,7 @@ class DiffCoverageMojo : AbstractMojo() {
     private var violations = ViolationsConfiguration()
 
     private val rootProjectDir: File
-        get() = project.basedir;
+        get() = project.basedir
 
     override fun execute() {
         val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
