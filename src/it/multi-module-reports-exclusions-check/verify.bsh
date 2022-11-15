@@ -17,9 +17,9 @@ if ( !csvReportFile.exists() || !csvReportFile.isFile() ) {
     throw new RuntimeException( "CSV report file wasn't found: " + csvReportFile.getAbsolutePath() );
 }
 
-String expectedInstructionsErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: instructions covered ratio is 0.5, but expected minimum is 0.6";
-String expectedLinesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: lines covered ratio is 0.5, but expected minimum is 0.7";
-String unexpectedBranchesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: branches covered ratio";
+String expectedInstructionsErrMsg = "[INFO] New violation: Rule violated for bundle report: instructions covered ratio is 0.5, but expected minimum is 0.6";
+String expectedLinesErrMsg = "[INFO] New violation: Rule violated for bundle report: lines covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedBranchesErrMsg = "[INFO] New violation: Rule violated for bundle report: branches covered ratio";
 
 String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
 if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {

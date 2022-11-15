@@ -1,0 +1,15 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String expectedInstructionsErrMsg = "[WARNING] Fail on violations: false. Found violations: 0.";
+
+String unexpectedErrMsg = "[INFO] New violation: Rule violated for bundle ";
+
+String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
+if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {
+    throw new RuntimeException( "Expected message: " + expectedInstructionsErrMsg );
+}
+if ( buildLog.contains( unexpectedErrMsg ) ) {
+    throw new RuntimeException( "UnExpected message: " + unexpectedErrMsg );
+}
+
