@@ -40,25 +40,17 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-        <repository>
-            <id>sunnylabs-public</id>
-            <name>Wavefront Internal Repository</name>
-            <url>https://repo.wavefront.com/content/groups/public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
     </repositories>
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sunnylabs-snapshots</id>
-            <name>Snapshot Repository</name>
-            <url>https://repo.wavefront.com/content/repositories/snapshots/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <properties>
@@ -77,17 +69,6 @@
             <id>jcenter</id>
             <name>JCenter</name>
             <url>https://jcenter.bintray.com/</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>sunnylabs-public</id>
-            <name>Wavefront Internal Repository</name>
-            <url>https://repo.wavefront.com/content/groups/public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
         </pluginRepository>
     </pluginRepositories>
 
