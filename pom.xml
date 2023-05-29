@@ -126,6 +126,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
@@ -257,7 +263,7 @@
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>0.3.0</version>
+                <version>0.3.1</version>
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
