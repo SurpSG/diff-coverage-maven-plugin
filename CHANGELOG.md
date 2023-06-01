@@ -4,12 +4,6 @@
 
 - Support Maven v3.9
 
-### Added
-- no new features
-
-## Dependencies updates
-- no updates
-
 
 ## 0.3.1
 
