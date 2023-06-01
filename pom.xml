@@ -6,7 +6,7 @@
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
-    <version>0.3.1</version>
+    <version>0.3.2</version>
     <description>
         Diff coverage maven plugin builds code coverage report of new and modified code based on a provided diff
     </description>
@@ -59,7 +59,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.13.2</junit.version>
-        <maven.version>3.8.6</maven.version>
+        <maven.version>3.9.2</maven.version>
 
         <diff.source>HEAD</diff.source>
     </properties>
@@ -123,6 +123,12 @@
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
             <version>6.2.0.202206071550-r</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
         <dependency>

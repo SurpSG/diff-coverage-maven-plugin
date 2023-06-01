@@ -31,7 +31,7 @@ jobs:
         cache: 'maven'
 
     - name: Build with Maven
-      run: mvn clean install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF" -e
+      run: ./mvnw clean install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF" -e
 
     - name: Expose Integration tests build logs
       uses: actions/upload-artifact@master
