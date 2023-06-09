@@ -11,4 +11,28 @@
         <artifactId>it-check-passes</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.surpsg</groupId>
+                <artifactId>diff-coverage-maven-plugin</artifactId>
+                <configuration>
+                    <diffSource>
+                        <file>diffFile.patch</file>
+                    </diffSource>
+                    <dataFileIncludes>**/custom-jacoco-name.exec</dataFileIncludes>
+                    <excludes>
+                        <exclude>**/exclude/**/ExcludeMe.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>diffCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

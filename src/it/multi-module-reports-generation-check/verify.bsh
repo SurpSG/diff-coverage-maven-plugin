@@ -1,18 +1,34 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-File reportsDir = new File(basedir, "/report/target/site/diffCoverage");
-File htmlReportDir = new File( reportsDir, "/html" );
-if ( !htmlReportDir.exists() || !htmlReportDir.isDirectory() ) {
-    throw new RuntimeException( "Html report dir wasn't found: " + htmlReportDir.getAbsolutePath() );
+File moduleADir = new File(basedir, "/moduleA/target/site/diffCoverage");
+File htmlModuleADir = new File( moduleADir, "/html" );
+if ( !htmlModuleADir.exists() || !htmlModuleADir.isDirectory() ) {
+    throw new RuntimeException( "Html report dir wasn't found: " + htmlModuleADir.getAbsolutePath() );
 }
 
-File xmlReportFile = new File( reportsDir, "diff-coverage.xml" );
-if ( !xmlReportFile.exists() || !xmlReportFile.isFile() ) {
-    throw new RuntimeException( "Xml report file wasn't found: " + xmlReportFile.getAbsolutePath() );
+File xmlModuleAFile = new File( moduleADir, "diff-coverage.xml" );
+if ( !xmlModuleAFile.exists() || !xmlModuleAFile.isFile() ) {
+    throw new RuntimeException( "Xml report file wasn't found: " + xmlModuleAFile.getAbsolutePath() );
 }
 
-File csvReportFile = new File( reportsDir, "diff-coverage.csv" );
-if ( !csvReportFile.exists() || !csvReportFile.isFile() ) {
-    throw new RuntimeException( "CSV report file wasn't found: " + csvReportFile.getAbsolutePath() );
+File csvModuleAFile = new File( moduleADir, "diff-coverage.csv" );
+if ( !csvModuleAFile.exists() || !csvModuleAFile.isFile() ) {
+    throw new RuntimeException( "CSV report file wasn't found: " + csvModuleAFile.getAbsolutePath() );
+}
+
+File moduleBDir = new File(basedir, "/moduleB/target/site/diffCoverage");
+File htmlModuleBDir = new File( moduleBDir, "/html" );
+if ( !htmlModuleBDir.exists() || !htmlModuleBDir.isDirectory() ) {
+    throw new RuntimeException( "Html report dir wasn't found: " + htmlModuleBDir.getAbsolutePath() );
+}
+
+File xmlModuleBFile = new File( moduleBDir, "diff-coverage.xml" );
+if ( !xmlModuleBFile.exists() || !xmlModuleBFile.isFile() ) {
+    throw new RuntimeException( "Xml report file wasn't found: " + xmlModuleBFile.getAbsolutePath() );
+}
+
+File csvModuleBFile = new File( moduleBDir, "diff-coverage.csv" );
+if ( !csvModuleBFile.exists() || !csvModuleBFile.isFile() ) {
+    throw new RuntimeException( "CSV report file wasn't found: " + csvModuleBFile.getAbsolutePath() );
 }

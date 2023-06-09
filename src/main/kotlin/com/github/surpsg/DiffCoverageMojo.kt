@@ -20,6 +20,9 @@ class DiffCoverageMojo : AbstractMojo() {
     @Parameter(property = "reactorProjects", required = true, readonly = true)
     private lateinit var reactorProjects: MutableList<MavenProject>
 
+    @Parameter(property = "project", required = true, readonly = true)
+    private lateinit var project: MavenProject
+
     @Parameter(property = "jacoco.dataFile", defaultValue = "\${project.build.directory}/jacoco.exec")
     private lateinit var dataFile: File
 
@@ -45,11 +48,23 @@ class DiffCoverageMojo : AbstractMojo() {
     private var violations = ViolationsConfiguration()
 
     private val rootProjectDir: File
-        get() = reactorProjects[0].basedir
+        get() = project.basedir
 
     override fun execute() {
         val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
             logPluginProperties(this)
+        }
+
+        var found = false
+        for (f in diffCoverageConfig.execFiles) {
+            if (f.isFile) {
+                found = true
+                break
+            }
+        }
+        if (!found) {
+            log.info("No exec files found skipping")
+            return
         }
 
         ReportGenerator(rootProjectDir, diffCoverageConfig).apply {
@@ -150,7 +165,8 @@ class DiffCoverageMojo : AbstractMojo() {
         val includePattern: String = includes.joinToString(",")
         val excludePattern: String = excludes.joinToString(",")
         return if (excludePattern.isEmpty() && includePattern == ALL_FILES_PATTERN) {
-            reactorProjects.map { File(it.build.outputDirectory) }.toSet()
+            reactorProjects.map { File(it.build.outputDirectory) }
+                .filter { outputDirectory -> outputDirectory.path.contains(rootProjectDir.path)}.toSet()
         } else {
             collectFilteredFiles(includePattern, excludePattern)
         }
@@ -159,7 +175,7 @@ class DiffCoverageMojo : AbstractMojo() {
     private fun collectFilteredFiles(includePattern: String, excludePattern: String?): Set<File> {
         return reactorProjects.asSequence()
             .map { project -> File(project.build.outputDirectory) }
-            .filter { outputDirectory -> outputDirectory.exists() }
+            .filter { outputDirectory -> outputDirectory.exists() && outputDirectory.path.contains(rootProjectDir.path)}
             .flatMap { outputDirectory ->
                 FileUtils.getFiles(
                     outputDirectory,

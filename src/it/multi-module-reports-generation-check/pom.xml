@@ -25,7 +25,6 @@
     <modules>
         <module>moduleA</module>
         <module>moduleB</module>
-        <module>report</module>
     </modules>
 
     <build>
