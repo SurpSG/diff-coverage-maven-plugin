@@ -50,6 +50,7 @@ class DiffCoverageMojo : AbstractMojo() {
     override fun execute() {
         val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
             logPluginProperties(this)
+            println(1)
         }
 
         ReportGenerator(rootProjectDir, diffCoverageConfig).apply {
