@@ -64,6 +64,13 @@ class DiffCoverageMojo : AbstractMojo() {
         }
     }
 
+    private fun azaza() {
+        println(1)
+        println(1)
+        println(1)
+        println(1)
+    }
+
     private fun logPluginProperties(diffCoverageConfig: DiffCoverageConfig) {
         log.apply {
             debug("Root dir: $rootProjectDir")

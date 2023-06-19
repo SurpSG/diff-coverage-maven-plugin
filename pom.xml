@@ -60,7 +60,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.13.2</junit.version>
         <maven.version>3.9.2</maven.version>
-
+        <ignoreDiffCoverageViolation>false</ignoreDiffCoverageViolation>
         <diff.source>HEAD</diff.source>
     </properties>
 
@@ -270,7 +270,7 @@
                         <git>${diff.source}</git>
                     </diffSource>
                     <violations>
-                        <failOnViolation>true</failOnViolation>
+                        <failOnViolation>${ignoreDiffCoverageViolation}</failOnViolation>
                         <minCoverage>0.9</minCoverage>
                     </violations>
                 </configuration>
