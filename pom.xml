@@ -60,8 +60,8 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.13.2</junit.version>
         <maven.version>3.9.2</maven.version>
-        <ignoreDiffCoverageViolation>false</ignoreDiffCoverageViolation>
-        <diff.source>HEAD</diff.source>
+        <failOnDiffCoverageViolation>true</failOnDiffCoverageViolation>
+        <diff.source>refs/remotes/origin/develop</diff.source>
     </properties>
 
     <pluginRepositories>
@@ -264,13 +264,14 @@
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
                 <version>0.3.0</version>
+
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
                         <git>${diff.source}</git>
                     </diffSource>
                     <violations>
-                        <failOnViolation>${ignoreDiffCoverageViolation}</failOnViolation>
+                        <failOnViolation>${failOnDiffCoverageViolation}</failOnViolation>
                         <minCoverage>0.9</minCoverage>
                     </violations>
                 </configuration>
