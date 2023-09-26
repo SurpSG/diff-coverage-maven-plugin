@@ -23,12 +23,12 @@ The plugin does the next steps:
         <plugin> <!-- Make sure JaCoCo plugin is applied -->
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.7</version>
+            <version>0.8.10</version>
         </plugin>
         <plugin>
             <groupId>com.github.surpsg</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
-            <version>0.3.2</version>
+            <version>0.3.3</version>
             <configuration>
                 <!-- Required. diff content source. only one of file, URL or Git is allowed -->
                 <diffSource>
