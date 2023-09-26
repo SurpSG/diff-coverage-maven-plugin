@@ -3,13 +3,13 @@
 ## [<NEXT-RELEASE>]
 
 ### Fixes
-- no fixes
+- Update JaCoCo to be able to use Java 21
   
 ### Added
 - no new features
 
 ### Dependencies updates
-- no updates
+- JaCoCo 0.8.10
 
 
 ## 0.3.2
