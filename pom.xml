@@ -59,7 +59,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.13.2</junit.version>
-        <maven.version>3.9.2</maven.version>
+        <maven.version>3.9.4</maven.version>
 
         <diff.source>HEAD</diff.source>
     </properties>

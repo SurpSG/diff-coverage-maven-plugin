@@ -10,6 +10,8 @@
 
 ### Dependencies updates
 - JaCoCo 0.8.10
+- Updated maven dependency to 3.9.4
+- Updated maven wrapper to 3.9.4
 
 
 ## 0.3.2
