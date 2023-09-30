@@ -1,12 +1,9 @@
 # Diff-Coverage Maven plugin
 
-## [<NEXT-RELEASE>]
+## 0.3.3
 
 ### Fixes
 - Update JaCoCo to be able to use Java 21
-  
-### Added
-- no new features
 
 ### Dependencies updates
 - JaCoCo 0.8.10
