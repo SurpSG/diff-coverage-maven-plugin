@@ -6,7 +6,7 @@
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
-    <version>0.3.3</version>
+    <version>0.3.4-SNAPSHOT</version>
     <description>
         Diff coverage maven plugin builds code coverage report of new and modified code based on a provided diff
     </description>
@@ -55,18 +55,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.code.style>official</kotlin.code.style>
         <diff.source>HEAD</diff.source>
 
         <maven.version>3.9.4</maven.version>
         <maven.plugin.tools.version>3.9.0</maven.plugin.tools.version>
 
-        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.code.style>official</kotlin.code.style>
+        <kotlin.version>1.9.10</kotlin.version>
+        <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <junit.version>4.13.2</junit.version>
 
+        <junit.version>4.13.2</junit.version>
         <jacoco.version>0.8.10</jacoco.version>
-        <delt.coverage.core.version>0.9.5</delt.coverage.core.version>
+        <delta.coverage.core.version>1.2.0</delta.coverage.core.version>
         <diff.coverage.plugin.version>0.3.2</diff.coverage.plugin.version>
     </properties>
 
@@ -111,9 +112,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.form-com.diff-coverage-gradle</groupId>
+            <groupId>com.github.SurpSG.delta-coverage-plugin</groupId>
             <artifactId>jacoco-filtering-extension</artifactId>
-            <version>${delt.coverage.core.version}</version>
+            <version>${delta.coverage.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
@@ -177,7 +178,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -233,7 +234,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
                     <postBuildHookScript>verify</postBuildHookScript>
@@ -256,6 +257,10 @@
                         <goal>install</goal>
                     </goals>
                     <settingsFile>src/it/settings.xml</settingsFile>
+                    <properties>
+                        <maven.compiler.source>11</maven.compiler.source>
+                        <maven.compiler.target>11</maven.compiler.target>
+                    </properties>
                 </configuration>
                 <executions>
                     <execution>
@@ -266,6 +271,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>

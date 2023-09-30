@@ -1,11 +1,13 @@
 package com.github.surpsg
 
-import com.form.coverage.config.DiffCoverageConfig
-import com.form.coverage.config.DiffSourceConfig
-import com.form.coverage.config.ReportConfig
-import com.form.coverage.config.ReportsConfig
-import com.form.coverage.config.ViolationRuleConfig
-import com.form.coverage.report.ReportGenerator
+import io.github.surpsg.deltacoverage.config.CoverageEntity
+import io.github.surpsg.deltacoverage.config.CoverageRulesConfig
+import io.github.surpsg.deltacoverage.config.DeltaCoverageConfig
+import io.github.surpsg.deltacoverage.config.DiffSourceConfig
+import io.github.surpsg.deltacoverage.config.ReportConfig
+import io.github.surpsg.deltacoverage.config.ReportsConfig
+import io.github.surpsg.deltacoverage.config.ViolationRule
+import io.github.surpsg.deltacoverage.report.ReportGenerator
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
@@ -18,7 +20,7 @@ import java.io.File
 class DiffCoverageMojo : AbstractMojo() {
 
     @Parameter(property = "reactorProjects", required = true, readonly = true)
-    private lateinit var reactorProjects: MutableList<MavenProject>
+    private var reactorProjects: MutableList<MavenProject> = mutableListOf()
 
     @Parameter(property = "jacoco.dataFile", defaultValue = "\${project.build.directory}/jacoco.exec")
     private lateinit var dataFile: File
@@ -30,7 +32,7 @@ class DiffCoverageMojo : AbstractMojo() {
     private var dataFileExcludes: String? = null
 
     @Parameter(defaultValue = ALL_FILES_PATTERN, required = false)
-    private lateinit var includes: List<String>
+    private var includes: List<String> = emptyList()
 
     @Parameter(required = false)
     private var excludes: List<String> = emptyList()
@@ -48,7 +50,7 @@ class DiffCoverageMojo : AbstractMojo() {
         get() = reactorProjects[0].basedir
 
     override fun execute() {
-        val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
+        val diffCoverageConfig: DeltaCoverageConfig = buildDeltaCoverageConfig().apply {
             logPluginProperties(this)
         }
 
@@ -63,37 +65,39 @@ class DiffCoverageMojo : AbstractMojo() {
         }
     }
 
-    private fun logPluginProperties(diffCoverageConfig: DiffCoverageConfig) {
+    private fun logPluginProperties(diffCoverageConfig: DeltaCoverageConfig) {
         log.apply {
             debug("Root dir: $rootProjectDir")
             debug("Classes dirs: ${diffCoverageConfig.classFiles}")
             debug("Sources: ${diffCoverageConfig.sourceFiles}")
-            debug("Exec files: ${diffCoverageConfig.execFiles}")
+            debug("Exec files: ${diffCoverageConfig.binaryCoverageFiles}")
         }
     }
 
-    private fun buildDiffCoverageConfig(): DiffCoverageConfig {
-        return DiffCoverageConfig(
-            reportName = rootProjectDir.name,
-            diffSourceConfig = DiffSourceConfig(
-                file = diffSource.file.asStringOrEmpty { absolutePath },
-                url = diffSource.url.asStringOrEmpty { toString() },
-                diffBase = diffSource.git ?: ""
-            ),
-            reportsConfig = ReportsConfig(
-                baseReportDir = outputDirectory.absolutePath,
-                html = ReportConfig(enabled = true, "html"),
-                csv = ReportConfig(enabled = true, "diff-coverage.csv"),
-                xml = ReportConfig(enabled = true, "diff-coverage.xml")
-            ),
-            violationRuleConfig = buildViolationRuleConfig(),
-            execFiles = collectExecFiles(),
-            classFiles = collectClassesFiles().throwIfEmpty("Classes collection passed to Diff-Coverage"),
-            sourceFiles = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
-        )
+    private fun buildDeltaCoverageConfig() = DeltaCoverageConfig {
+        reportName = rootProjectDir.name
+
+        binaryCoverageFiles += collectBinaryFiles()
+        classFiles += collectClassesFiles().throwIfEmpty("Classes collection passed to Diff-Coverage")
+        sourceFiles += reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
+
+        diffSourceConfig = DiffSourceConfig {
+            file = diffSource.file.asStringOrEmpty { absolutePath }
+            url = diffSource.url.asStringOrEmpty { toString() }
+            diffBase = diffSource.git ?: ""
+        }
+
+        reportsConfig = ReportsConfig {
+            baseReportDir = outputDirectory.absolutePath
+            html = ReportConfig { enabled = true; outputFileName = "html" }
+            csv = ReportConfig { enabled = true; outputFileName = "diff-coverage.csv" }
+            xml = ReportConfig { enabled = true; outputFileName = "diff-coverage.xml" }
+        }
+
+        coverageRulesConfig = buildCoverageRulesConfig()
     }
 
-    private fun buildViolationRuleConfig(): ViolationRuleConfig {
+    private fun buildCoverageRulesConfig() = CoverageRulesConfig {
         val isMinCoverageSet: Boolean = violations.minCoverage != MIN_COVERAGE_PROPERTY_DEFAULT
         val configuredProperties: Set<Pair<String, Double>> = collectConfiguredCoveragePropertiesNames()
 
@@ -111,19 +115,17 @@ class DiffCoverageMojo : AbstractMojo() {
             )
         }
 
-        return if (isMinCoverageSet) {
-            ViolationRuleConfig(
-                minBranches = violations.minCoverage,
-                minInstructions = violations.minCoverage,
-                minLines = violations.minCoverage,
-                failOnViolation = violations.failOnViolation
-            )
+        failOnViolation = violations.failOnViolation
+
+        violationRules += if (isMinCoverageSet) {
+            CoverageEntity.values().map { entity ->
+                entity.violationRule(violations.minCoverage)
+            }
         } else {
-            ViolationRuleConfig(
-                minBranches = violations.minBranches,
-                minInstructions = violations.minInstructions,
-                minLines = violations.minLines,
-                failOnViolation = violations.failOnViolation
+            listOf(
+                CoverageEntity.INSTRUCTION.violationRule(violations.minInstructions),
+                CoverageEntity.BRANCH.violationRule(violations.minBranches),
+                CoverageEntity.LINE.violationRule(violations.minLines),
             )
         }
     }
@@ -138,7 +140,7 @@ class DiffCoverageMojo : AbstractMojo() {
         }.toSet()
     }
 
-    private fun collectExecFiles(): Set<File> {
+    private fun collectBinaryFiles(): Set<File> {
         return if (dataFileIncludes == null) {
             setOf(dataFile)
         } else {
@@ -167,6 +169,11 @@ class DiffCoverageMojo : AbstractMojo() {
                     excludePattern
                 )
             }.toSet()
+    }
+
+    private fun CoverageEntity.violationRule(minValue: Double): ViolationRule = ViolationRule {
+        coverageEntity = this@violationRule
+        minCoverageRatio = minValue
     }
 
     private fun <T> T?.asStringOrEmpty(toString: T.() -> String): String = if (this != null) {

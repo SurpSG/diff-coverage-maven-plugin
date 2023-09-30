@@ -1,7 +1,7 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-File reportsDir = new File(basedir, "target/site/diffCoverage");
+File reportsDir = new File(basedir, "target/site/deltaCoverage");
 File htmlReportDir = new File( reportsDir, "/html" );
 if ( !htmlReportDir.exists() || !htmlReportDir.isDirectory() ) {
     throw new RuntimeException( "Html report dir wasn't found: " + htmlReportDir.getAbsolutePath() );
