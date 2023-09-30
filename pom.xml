@@ -55,14 +55,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.4.32</kotlin.version>
-        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.code.style>official</kotlin.code.style>
-        <junit.version>4.13.2</junit.version>
+        <diff.source>HEAD</diff.source>
+
         <maven.version>3.9.4</maven.version>
         <maven.plugin.tools.version>3.9.0</maven.plugin.tools.version>
 
-        <diff.source>HEAD</diff.source>
+        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <junit.version>4.13.2</junit.version>
+
+        <jacoco.version>0.8.10</jacoco.version>
+        <delt.coverage.core.version>0.9.5</delt.coverage.core.version>
+        <diff.coverage.plugin.version>0.3.2</diff.coverage.plugin.version>
     </properties>
 
     <pluginRepositories>
@@ -108,17 +113,17 @@
         <dependency>
             <groupId>com.github.form-com.diff-coverage-gradle</groupId>
             <artifactId>jacoco-filtering-extension</artifactId>
-            <version>0.9.5</version>
+            <version>${delt.coverage.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.core</artifactId>
-            <version>0.8.10</version>
+            <version>${jacoco.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.report</artifactId>
-            <version>0.8.10</version>
+            <version>${jacoco.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
@@ -172,7 +177,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -264,7 +269,7 @@
             <plugin>
                 <groupId>com.github.surpsg</groupId>
                 <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>0.3.0</version>
+                <version>${diff.coverage.plugin.version}</version>
                 <configuration>
                     <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
                     <diffSource>
