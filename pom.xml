@@ -242,6 +242,7 @@
                     <addTestClassPath>true</addTestClassPath>
                     <showErrors>true</showErrors>
                     <streamLogsOnFailures>true</streamLogsOnFailures>
+                    <parallelThreads>2</parallelThreads>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
                     <pomExcludes>
                         <!-- Temporary exclude this tests.
