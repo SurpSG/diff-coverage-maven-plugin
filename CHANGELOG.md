@@ -1,5 +1,31 @@
 # Diff-Coverage Maven plugin
 
+## 0.4.0
+
+### Added
+- Support min coverage threshold.
+  - If changed entity number is below the threshold, then coverage check for the entity will be skipped.
+  ```xml
+  <violations>
+    <rules>
+      <rule>
+        <coverageEntity>INSTRUCTION</coverageEntity>
+        <minCoverageRatio>0.9</minCoverageRatio>
+        <entityCountThreshold>20</entityCountThreshold>
+      </rule>
+      <rule>
+        <coverageEntity>BRANCH</coverageEntity>
+        <minCoverageRatio>0.8</minCoverageRatio>
+        <entityCountThreshold>3</entityCountThreshold>
+      </rule>
+    </rules>
+  </violations>
+  ```
+
+### Deprecated
+- `<minLines>`, `<minBranches>`, `<minInstructions>` are deprecated.
+  - Use `<minCoverage>` or `<rules>` instead.
+
 ## 0.3.3
 
 ### Fixes

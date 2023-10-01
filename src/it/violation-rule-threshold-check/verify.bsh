@@ -1,0 +1,17 @@
+import java.io.*;
+import org.codehaus.plexus.util.*;
+
+String expectedLinesErrMsg = "[ERROR] Rule violated for bundle violation-rule-threshold-check: lines covered ratio is 0.8, but expected minimum is 1.0";
+String unexpectedInstructionsErrMsg = "[ERROR] Rule violated for bundle violation-rule-threshold-check: instructions covered ratio";
+String unexpectedBranchesErrMsg = "[ERROR] Rule violated for bundle violation-rule-threshold-check: branches covered ratio";
+
+String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
+if ( !buildLog.contains( expectedLinesErrMsg ) ) {
+    throw new RuntimeException( "Expected message: " + expectedLinesErrMsg );
+}
+if ( buildLog.contains( unexpectedInstructionsErrMsg ) ) {
+    throw new RuntimeException( "Unexpected message: " + unexpectedInstructionsErrMsg );
+}
+if ( buildLog.contains( unexpectedBranchesErrMsg ) ) {
+    throw new RuntimeException( "Unexpected message: " + unexpectedBranchesErrMsg );
+}
