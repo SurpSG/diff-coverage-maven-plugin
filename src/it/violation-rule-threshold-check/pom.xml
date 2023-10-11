@@ -38,10 +38,28 @@
           <diffSource>
             <file>diffFile.patch</file>
           </diffSource>
+
           <violations>
-            <minCoverage>0.7</minCoverage>
-            <minLines>0.9</minLines>
+            <failOnViolation>true</failOnViolation>
+            <rules>
+              <rule>
+                <coverageEntity>INSTRUCTION</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+                <entityCountThreshold>20</entityCountThreshold>
+              </rule>
+              <rule>
+                <coverageEntity>BRANCH</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+                <entityCountThreshold>3</entityCountThreshold>
+              </rule>
+              <rule>
+                <coverageEntity>LINE</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+              </rule>
+            </rules>
+
           </violations>
+
         </configuration>
         <executions>
           <execution>

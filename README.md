@@ -51,10 +51,26 @@ The plugin does the next steps:
                     <minCoverage>0.7</minCoverage>
                     
                     <!-- Each rule could be configured separately -->
-                    <!-- Default '0.0'. If value is '0.0' then the rule is disabled -->
-                    <minLines>0.1</minLines>
-                    <minBranches>0.7</minBranches>
-                    <minInstructions>1.0</minInstructions>
+                    <rules>
+                        <rule>
+                            <coverageEntity>INSTRUCTION</coverageEntity>
+                            <!-- Default '0.0'. If value is '0.0' then the rule is disabled -->
+                            <minCoverageRatio>1.0</minCoverageRatio>
+                            <!-- Default 'null'. 
+                            If changed entity number is below the threshold, 
+                            then coverage check for the entity will be skipped. -->
+                            <entityCountThreshold>20</entityCountThreshold>
+                        </rule>
+                        <rule>
+                            <coverageEntity>BRANCH</coverageEntity>
+                            <minCoverageRatio>1.0</minCoverageRatio>
+                            <entityCountThreshold>3</entityCountThreshold>
+                        </rule>
+                        <rule>
+                            <coverageEntity>LINE</coverageEntity>
+                            <minCoverageRatio>1.0</minCoverageRatio>
+                        </rule>
+                    </rules>
                 </violations>
 
                 <!-- Optional. Exec files include pattern. By default 'build/jacoco.exec' file is used -->

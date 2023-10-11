@@ -1,0 +1,16 @@
+===================================================================
+diff --git a/src/it/violation-rule-threshold-check/src/main/java/com/test/Example.java b/src/it/violation-rule-threshold-check/src/main/java/com/test/Example.java
+--- /dev/null
++++ b/src/it/violation-rule-threshold-check/src/main/java/com/test/Example.java
+@@ -0,0 +1,14 @@
++package com.test;
++public class Example {
++    public void sayHello(boolean a) {
++        if (a) {
++            System.out.println("if");
++        } else {
++            System.out.println("else");
++        }
++            System.out.println("return");
++        }
++}

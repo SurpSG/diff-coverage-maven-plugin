@@ -1,12 +1,9 @@
 package com.github.surpsg
 
-import io.github.surpsg.deltacoverage.config.CoverageEntity
-import io.github.surpsg.deltacoverage.config.CoverageRulesConfig
 import io.github.surpsg.deltacoverage.config.DeltaCoverageConfig
 import io.github.surpsg.deltacoverage.config.DiffSourceConfig
 import io.github.surpsg.deltacoverage.config.ReportConfig
 import io.github.surpsg.deltacoverage.config.ReportsConfig
-import io.github.surpsg.deltacoverage.config.ViolationRule
 import io.github.surpsg.deltacoverage.report.ReportGenerator
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
@@ -94,50 +91,7 @@ class DiffCoverageMojo : AbstractMojo() {
             xml = ReportConfig { enabled = true; outputFileName = "diff-coverage.xml" }
         }
 
-        coverageRulesConfig = buildCoverageRulesConfig()
-    }
-
-    private fun buildCoverageRulesConfig() = CoverageRulesConfig {
-        val isMinCoverageSet: Boolean = violations.minCoverage != MIN_COVERAGE_PROPERTY_DEFAULT
-        val configuredProperties: Set<Pair<String, Double>> = collectConfiguredCoveragePropertiesNames()
-
-        if (isMinCoverageSet && configuredProperties.isNotEmpty()) {
-            val conflictingProperties = configuredProperties.joinToString(separator = "\n") {
-                "violations.${it.first} = ${it.second}"
-            }
-            throw IllegalArgumentException(
-                """
-                
-                Simultaneous configuration of 'minCoverage' and any of [minCoverage, minBranches, minInstructions] is not allowed.
-                violations.minCoverage = ${violations.minCoverage}
-                $conflictingProperties
-            """.trimIndent()
-            )
-        }
-
-        failOnViolation = violations.failOnViolation
-
-        violationRules += if (isMinCoverageSet) {
-            CoverageEntity.values().map { entity ->
-                entity.violationRule(violations.minCoverage)
-            }
-        } else {
-            listOf(
-                CoverageEntity.INSTRUCTION.violationRule(violations.minInstructions),
-                CoverageEntity.BRANCH.violationRule(violations.minBranches),
-                CoverageEntity.LINE.violationRule(violations.minLines),
-            )
-        }
-    }
-
-    private fun collectConfiguredCoveragePropertiesNames(): Set<Pair<String, Double>> {
-        return sequenceOf(
-            "minLines" to violations.minLines,
-            "minBranches" to violations.minBranches,
-            "minInstructions" to violations.minInstructions
-        ).filter {
-            it.second > 0.0
-        }.toSet()
+        coverageRulesConfig = CoverageRulesResolver().resolveFrom(violations)
     }
 
     private fun collectBinaryFiles(): Set<File> {
@@ -169,11 +123,6 @@ class DiffCoverageMojo : AbstractMojo() {
                     excludePattern
                 )
             }.toSet()
-    }
-
-    private fun CoverageEntity.violationRule(minValue: Double): ViolationRule = ViolationRule {
-        coverageEntity = this@violationRule
-        minCoverageRatio = minValue
     }
 
     private fun <T> T?.asStringOrEmpty(toString: T.() -> String): String = if (this != null) {
