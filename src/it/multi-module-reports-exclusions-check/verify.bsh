@@ -1,7 +1,7 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-File reportsDir = new File(basedir, "/report/target/site/diffCoverage");
+File reportsDir = new File(basedir, "/report/target/site/deltaCoverage");
 File htmlReportDir = new File( reportsDir, "/html" );
 if ( !htmlReportDir.exists() || !htmlReportDir.isDirectory() ) {
     throw new RuntimeException( "Html report dir wasn't found: " + htmlReportDir.getAbsolutePath() );
@@ -17,9 +17,9 @@ if ( !csvReportFile.exists() || !csvReportFile.isFile() ) {
     throw new RuntimeException( "CSV report file wasn't found: " + csvReportFile.getAbsolutePath() );
 }
 
-String expectedInstructionsErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: instructions covered ratio is 0.5, but expected minimum is 0.6";
-String expectedLinesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: lines covered ratio is 0.5, but expected minimum is 0.7";
-String unexpectedBranchesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: branches covered ratio";
+String expectedInstructionsErrMsg = "New violation: Rule violated for bundle multi-module-reports-exclusions-check: instructions covered ratio is 0.5, but expected minimum is 0.6";
+String expectedLinesErrMsg = "New violation: Rule violated for bundle multi-module-reports-exclusions-check: lines covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedBranchesErrMsg = "New violation: Rule violated for bundle multi-module-reports-exclusions-check: branches covered ratio";
 
 String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
 if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {

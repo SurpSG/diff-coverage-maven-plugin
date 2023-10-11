@@ -1,11 +1,10 @@
 package com.github.surpsg
 
-import com.form.coverage.config.DiffCoverageConfig
-import com.form.coverage.config.DiffSourceConfig
-import com.form.coverage.config.ReportConfig
-import com.form.coverage.config.ReportsConfig
-import com.form.coverage.config.ViolationRuleConfig
-import com.form.coverage.report.ReportGenerator
+import io.github.surpsg.deltacoverage.config.DeltaCoverageConfig
+import io.github.surpsg.deltacoverage.config.DiffSourceConfig
+import io.github.surpsg.deltacoverage.config.ReportConfig
+import io.github.surpsg.deltacoverage.config.ReportsConfig
+import io.github.surpsg.deltacoverage.report.ReportGenerator
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
@@ -18,7 +17,7 @@ import java.io.File
 class DiffCoverageMojo : AbstractMojo() {
 
     @Parameter(property = "reactorProjects", required = true, readonly = true)
-    private lateinit var reactorProjects: MutableList<MavenProject>
+    private var reactorProjects: MutableList<MavenProject> = mutableListOf()
 
     @Parameter(property = "jacoco.dataFile", defaultValue = "\${project.build.directory}/jacoco.exec")
     private lateinit var dataFile: File
@@ -30,7 +29,7 @@ class DiffCoverageMojo : AbstractMojo() {
     private var dataFileExcludes: String? = null
 
     @Parameter(defaultValue = ALL_FILES_PATTERN, required = false)
-    private lateinit var includes: List<String>
+    private var includes: List<String> = emptyList()
 
     @Parameter(required = false)
     private var excludes: List<String> = emptyList()
@@ -48,7 +47,7 @@ class DiffCoverageMojo : AbstractMojo() {
         get() = reactorProjects[0].basedir
 
     override fun execute() {
-        val diffCoverageConfig: DiffCoverageConfig = buildDiffCoverageConfig().apply {
+        val diffCoverageConfig: DeltaCoverageConfig = buildDeltaCoverageConfig().apply {
             logPluginProperties(this)
         }
 
@@ -63,82 +62,39 @@ class DiffCoverageMojo : AbstractMojo() {
         }
     }
 
-    private fun logPluginProperties(diffCoverageConfig: DiffCoverageConfig) {
+    private fun logPluginProperties(diffCoverageConfig: DeltaCoverageConfig) {
         log.apply {
             debug("Root dir: $rootProjectDir")
             debug("Classes dirs: ${diffCoverageConfig.classFiles}")
             debug("Sources: ${diffCoverageConfig.sourceFiles}")
-            debug("Exec files: ${diffCoverageConfig.execFiles}")
+            debug("Exec files: ${diffCoverageConfig.binaryCoverageFiles}")
         }
     }
 
-    private fun buildDiffCoverageConfig(): DiffCoverageConfig {
-        return DiffCoverageConfig(
-            reportName = rootProjectDir.name,
-            diffSourceConfig = DiffSourceConfig(
-                file = diffSource.file.asStringOrEmpty { absolutePath },
-                url = diffSource.url.asStringOrEmpty { toString() },
-                diffBase = diffSource.git ?: ""
-            ),
-            reportsConfig = ReportsConfig(
-                baseReportDir = outputDirectory.absolutePath,
-                html = ReportConfig(enabled = true, "html"),
-                csv = ReportConfig(enabled = true, "diff-coverage.csv"),
-                xml = ReportConfig(enabled = true, "diff-coverage.xml")
-            ),
-            violationRuleConfig = buildViolationRuleConfig(),
-            execFiles = collectExecFiles(),
-            classFiles = collectClassesFiles().throwIfEmpty("Classes collection passed to Diff-Coverage"),
-            sourceFiles = reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
-        )
-    }
+    private fun buildDeltaCoverageConfig() = DeltaCoverageConfig {
+        reportName = rootProjectDir.name
 
-    private fun buildViolationRuleConfig(): ViolationRuleConfig {
-        val isMinCoverageSet: Boolean = violations.minCoverage != MIN_COVERAGE_PROPERTY_DEFAULT
-        val configuredProperties: Set<Pair<String, Double>> = collectConfiguredCoveragePropertiesNames()
+        binaryCoverageFiles += collectBinaryFiles()
+        classFiles += collectClassesFiles().throwIfEmpty("Classes collection passed to Diff-Coverage")
+        sourceFiles += reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
 
-        if (isMinCoverageSet && configuredProperties.isNotEmpty()) {
-            val conflictingProperties = configuredProperties.joinToString(separator = "\n") {
-                "violations.${it.first} = ${it.second}"
-            }
-            throw IllegalArgumentException(
-                """
-                
-                Simultaneous configuration of 'minCoverage' and any of [minCoverage, minBranches, minInstructions] is not allowed.
-                violations.minCoverage = ${violations.minCoverage}
-                $conflictingProperties
-            """.trimIndent()
-            )
+        diffSourceConfig = DiffSourceConfig {
+            file = diffSource.file.asStringOrEmpty { absolutePath }
+            url = diffSource.url.asStringOrEmpty { toString() }
+            diffBase = diffSource.git ?: ""
         }
 
-        return if (isMinCoverageSet) {
-            ViolationRuleConfig(
-                minBranches = violations.minCoverage,
-                minInstructions = violations.minCoverage,
-                minLines = violations.minCoverage,
-                failOnViolation = violations.failOnViolation
-            )
-        } else {
-            ViolationRuleConfig(
-                minBranches = violations.minBranches,
-                minInstructions = violations.minInstructions,
-                minLines = violations.minLines,
-                failOnViolation = violations.failOnViolation
-            )
+        reportsConfig = ReportsConfig {
+            baseReportDir = outputDirectory.absolutePath
+            html = ReportConfig { enabled = true; outputFileName = "html" }
+            csv = ReportConfig { enabled = true; outputFileName = "diff-coverage.csv" }
+            xml = ReportConfig { enabled = true; outputFileName = "diff-coverage.xml" }
         }
+
+        coverageRulesConfig = CoverageRulesResolver().resolveFrom(violations)
     }
 
-    private fun collectConfiguredCoveragePropertiesNames(): Set<Pair<String, Double>> {
-        return sequenceOf(
-            "minLines" to violations.minLines,
-            "minBranches" to violations.minBranches,
-            "minInstructions" to violations.minInstructions
-        ).filter {
-            it.second > 0.0
-        }.toSet()
-    }
-
-    private fun collectExecFiles(): Set<File> {
+    private fun collectBinaryFiles(): Set<File> {
         return if (dataFileIncludes == null) {
             setOf(dataFile)
         } else {

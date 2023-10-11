@@ -7,11 +7,6 @@
   <artifactId>it-check-passes</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -38,14 +33,33 @@
       <plugin>
         <groupId>com.github.surpsg</groupId>
         <artifactId>diff-coverage-maven-plugin</artifactId>
+        <version>@project.version@</version>
         <configuration>
           <diffSource>
             <file>diffFile.patch</file>
           </diffSource>
+
           <violations>
-            <minCoverage>0.7</minCoverage>
-            <minLines>0.9</minLines>
+            <failOnViolation>true</failOnViolation>
+            <rules>
+              <rule>
+                <coverageEntity>INSTRUCTION</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+                <entityCountThreshold>20</entityCountThreshold>
+              </rule>
+              <rule>
+                <coverageEntity>BRANCH</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+                <entityCountThreshold>3</entityCountThreshold>
+              </rule>
+              <rule>
+                <coverageEntity>LINE</coverageEntity>
+                <minCoverageRatio>1.0</minCoverageRatio>
+              </rule>
+            </rules>
+
           </violations>
+
         </configuration>
         <executions>
           <execution>
