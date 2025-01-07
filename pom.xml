@@ -58,7 +58,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <diff.source>HEAD</diff.source>
 
-        <maven.version>3.9.4</maven.version>
+        <maven.version>3.9.9</maven.version>
         <maven.plugin.tools.version>3.9.0</maven.plugin.tools.version>
 
         <kotlin.version>1.4.32</kotlin.version>
