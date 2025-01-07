@@ -67,7 +67,7 @@
 
         <jacoco.version>0.8.10</jacoco.version>
         <delt.coverage.core.version>0.9.5</delt.coverage.core.version>
-        <diff.coverage.plugin.version>0.3.2</diff.coverage.plugin.version>
+        <diff.coverage.plugin.version>0.3.3</diff.coverage.plugin.version>
     </properties>
 
     <pluginRepositories>
