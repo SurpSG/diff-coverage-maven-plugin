@@ -59,7 +59,7 @@
         <diff.source>HEAD</diff.source>
 
         <maven.version>3.9.9</maven.version>
-        <maven.plugin.tools.version>3.9.0</maven.plugin.tools.version>
+        <maven.plugin.tools.version>3.15.1</maven.plugin.tools.version>
 
         <kotlin.version>1.4.32</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
