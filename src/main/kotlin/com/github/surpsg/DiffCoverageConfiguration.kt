@@ -22,4 +22,9 @@ class ViolationsConfiguration(
     var minCoverage: Double = MIN_COVERAGE_PROPERTY_DEFAULT
 )
 
+class Report(
+    var type: String? = null,
+    var enabled: Boolean = true,
+)
+
 internal const val MIN_COVERAGE_PROPERTY_DEFAULT: Double = -1.0;
