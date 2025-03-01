@@ -26,9 +26,9 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        distribution: 'adopt'
-        java-version: '11'
-        cache: 'maven'
+        distribution: temurin
+        java-version: 17
+        cache: maven
 
     - name: Build with Maven
       run: ./mvnw clean install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF" -e
