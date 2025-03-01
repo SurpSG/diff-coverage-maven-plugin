@@ -26,7 +26,7 @@ The plugin does the next steps:
             <version>0.8.10</version>
         </plugin>
         <plugin>
-            <groupId>com.github.surpsg</groupId>
+            <groupId>io.github.surpsg</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
             <version>1.0.0</version>
             <configuration>

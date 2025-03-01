@@ -1,4 +1,4 @@
-package com.github.surpsg
+package io.github.surpsg
 
 import io.github.surpsg.deltacoverage.CoverageEngine
 import io.github.surpsg.deltacoverage.config.CoverageEntity

@@ -2,6 +2,7 @@
 
 ## 1.0.0
 
+- Changed group id from `com.github.surpsg` to `io.github.surpsg`
 - Min supported Java version is 17
 - Migrated to [Delta Coverage engine](https://github.com/gw-kit/delta-coverage-plugin)
   - Changed reports output paths:

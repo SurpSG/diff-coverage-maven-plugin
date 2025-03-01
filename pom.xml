@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.surpsg</groupId>
+    <groupId>io.github.surpsg</groupId>
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
@@ -61,7 +61,7 @@
 
         <jacoco.version>0.8.12</jacoco.version>
         <delta.coverage.core.version>3.2.0</delta.coverage.core.version>
-        <diff.coverage.plugin.version>0.3.3</diff.coverage.plugin.version>
+        <diff.coverage.plugin.version>1.0.0</diff.coverage.plugin.version>
     </properties>
 
     <pluginRepositories>
@@ -260,28 +260,28 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.github.surpsg</groupId>-->
-<!--                <artifactId>diff-coverage-maven-plugin</artifactId>-->
-<!--                <version>${diff.coverage.plugin.version}</version>-->
-<!--                <configuration>-->
-<!--                    <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>-->
-<!--                    <diffSource>-->
-<!--                        <git>${diff.source}</git>-->
-<!--                    </diffSource>-->
-<!--                    <violations>-->
-<!--                        <failOnViolation>true</failOnViolation>-->
-<!--                        <minCoverage>0.9</minCoverage>-->
-<!--                    </violations>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>diffCoverage</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>io.github.surpsg</groupId>
+                <artifactId>diff-coverage-maven-plugin</artifactId>
+                <version>${diff.coverage.plugin.version}</version>
+                <configuration>
+                    <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
+                    <diffSource>
+                        <git>${diff.source}</git>
+                    </diffSource>
+                    <violations>
+                        <failOnViolation>true</failOnViolation>
+                        <minCoverage>0.9</minCoverage>
+                    </violations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>diffCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -337,14 +337,12 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.7.0</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
                         </configuration>
                     </plugin>
                 </plugins>
