@@ -64,14 +64,6 @@
         <diff.coverage.plugin.version>1.0.0</diff.coverage.plugin.version>
     </properties>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jcenter</id>
-            <name>JCenter</name>
-            <url>https://jcenter.bintray.com/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
