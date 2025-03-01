@@ -1,25 +1,25 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-File reportsDir = new File(basedir, "/report/target/site/diffCoverage");
+File reportsDir = new File(basedir, "/report/target/site/delta-coverage/aggregated");
 File htmlReportDir = new File( reportsDir, "/html" );
 if ( !htmlReportDir.exists() || !htmlReportDir.isDirectory() ) {
     throw new RuntimeException( "Html report dir wasn't found: " + htmlReportDir.getAbsolutePath() );
 }
 
-File xmlReportFile = new File( reportsDir, "diff-coverage.xml" );
+File xmlReportFile = new File( reportsDir, "report.xml" );
 if ( !xmlReportFile.exists() || !xmlReportFile.isFile() ) {
     throw new RuntimeException( "Xml report file wasn't found: " + xmlReportFile.getAbsolutePath() );
 }
 
-File csvReportFile = new File( reportsDir, "diff-coverage.csv" );
-if ( !csvReportFile.exists() || !csvReportFile.isFile() ) {
-    throw new RuntimeException( "CSV report file wasn't found: " + csvReportFile.getAbsolutePath() );
+File mdReportFile = new File( reportsDir, "report.md" );
+if ( !mdReportFile.exists() || !mdReportFile.isFile() ) {
+    throw new RuntimeException( "Markdown report file wasn't found: " + mdReportFile.getAbsolutePath() );
 }
 
-String expectedInstructionsErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: instructions covered ratio is 0.5, but expected minimum is 0.6";
-String expectedLinesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: lines covered ratio is 0.5, but expected minimum is 0.7";
-String unexpectedBranchesErrMsg = "[INFO] New violation: Rule violated for bundle multi-module-reports-exclusions-check: branches covered ratio";
+String expectedInstructionsErrMsg = "[aggregated] Rule violated for bundle aggregated: instructions covered ratio is 0.5, but expected minimum is 0.6";
+String expectedLinesErrMsg = "[aggregated] Rule violated for bundle aggregated: lines covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedBranchesErrMsg = "[aggregated] Rule violated for bundle aggregated: branches covered ratio";
 
 String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
 if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {

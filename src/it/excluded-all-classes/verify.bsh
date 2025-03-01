@@ -1,7 +1,7 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-String expectedErrorMsg = "Classes collection passed to Diff-Coverage is empty";
+String expectedErrorMsg = "Classes collection is empty";
 
 String buildLog = FileUtils.fileRead(new File(basedir, "build.log"));
 if (!buildLog.contains(expectedErrorMsg)) {

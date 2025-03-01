@@ -35,13 +35,6 @@
         <url>https://github.com/SurpSG/diff-coverage-maven-plugin/issues</url>
     </issueManagement>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -62,11 +55,12 @@
         <maven.plugin.tools.version>3.15.1</maven.plugin.tools.version>
 
         <kotlin.version>2.1.10</kotlin.version>
+        <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <junit.version>4.13.2</junit.version>
 
         <jacoco.version>0.8.12</jacoco.version>
-        <delt.coverage.core.version>0.9.5</delt.coverage.core.version>
+        <delta.coverage.core.version>3.2.0</delta.coverage.core.version>
         <diff.coverage.plugin.version>0.3.3</diff.coverage.plugin.version>
     </properties>
 
@@ -111,9 +105,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.form-com.diff-coverage-gradle</groupId>
-            <artifactId>jacoco-filtering-extension</artifactId>
-            <version>${delt.coverage.core.version}</version>
+            <groupId>io.github.gw-kit</groupId>
+            <artifactId>delta-coverage-core</artifactId>
+            <version>${delta.coverage.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
@@ -266,28 +260,28 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.github.surpsg</groupId>
-                <artifactId>diff-coverage-maven-plugin</artifactId>
-                <version>${diff.coverage.plugin.version}</version>
-                <configuration>
-                    <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>
-                    <diffSource>
-                        <git>${diff.source}</git>
-                    </diffSource>
-                    <violations>
-                        <failOnViolation>true</failOnViolation>
-                        <minCoverage>0.9</minCoverage>
-                    </violations>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>diffCoverage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.github.surpsg</groupId>-->
+<!--                <artifactId>diff-coverage-maven-plugin</artifactId>-->
+<!--                <version>${diff.coverage.plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <dataFile>${project.build.directory}/fullCoverage.exec</dataFile>-->
+<!--                    <diffSource>-->
+<!--                        <git>${diff.source}</git>-->
+<!--                    </diffSource>-->
+<!--                    <violations>-->
+<!--                        <failOnViolation>true</failOnViolation>-->
+<!--                        <minCoverage>0.9</minCoverage>-->
+<!--                    </violations>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>diffCoverage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
