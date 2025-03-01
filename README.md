@@ -28,7 +28,7 @@ The plugin does the next steps:
         <plugin>
             <groupId>com.github.surpsg</groupId>
             <artifactId>diff-coverage-maven-plugin</artifactId>
-            <version>0.3.3</version>
+            <version>1.0.0</version>
             <configuration>
                 <!-- Required. diff content source. only one of file, URL or Git is allowed -->
                 <diffSource>
@@ -73,6 +73,16 @@ The plugin does the next steps:
                     <exclude>**/exclude/**/ClassName.class</exclude>
                 </excludes>
                 <!-- If neither <includes> nor <excludes> are specified then we pass all classes for coverage report -->
+                
+                <!-- Enable/Disable reports -->
+                <!-- All reports are enabled by default -->
+                <!-- Available report type: html, xml, markdown, console -->
+                <reports>
+                    <report>
+                        <type>html</type>
+                        <enabled>false</enabled>
+                    </report>
+                </reports>
                 
             </configuration>
             <executions>
