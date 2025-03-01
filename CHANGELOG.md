@@ -1,5 +1,16 @@
 # Diff-Coverage Maven plugin
 
+## 1.0.0
+
+- Changed group id from `com.github.surpsg` to `io.github.surpsg`
+- Min supported Java version is 17
+- Migrated to [Delta Coverage engine](https://github.com/gw-kit/delta-coverage-plugin)
+  - Changed reports output paths:
+    - HTML `target/site/delta-coverage/aggregated/html`
+    - XML `target/site/delta-coverage/aggregated/report.xml`
+  - Added Markdown report available in `target/site/delta-coverage/aggregated/report.md`
+  - CSV reports is not generated anymore
+
 ## 0.3.3
 
 ### Fixes

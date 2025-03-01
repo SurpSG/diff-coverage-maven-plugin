@@ -1,9 +1,9 @@
 import java.io.*;
 import org.codehaus.plexus.util.*;
 
-String expectedInstructionsErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: instructions covered ratio is 0.5, but expected minimum is 0.7";
-String expectedLinesErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: lines covered ratio is 0.5, but expected minimum is 0.7";
-String unexpectedBranchesErrMsg = "[ERROR] Rule violated for bundle violation-rules-check: branches covered ratio";
+String expectedInstructionsErrMsg = "[aggregated] Rule violated for bundle aggregated: instructions covered ratio is 0.5, but expected minimum is 0.7";
+String expectedLinesErrMsg = "[aggregated] Rule violated for bundle aggregated: lines covered ratio is 0.5, but expected minimum is 0.7";
+String unexpectedBranchesErrMsg = "[aggregated] Rule violated for bundle aggregated: branches";
 
 String buildLog = FileUtils.fileRead( new File( basedir, "build.log" ) );
 if ( !buildLog.contains( expectedInstructionsErrMsg ) ) {

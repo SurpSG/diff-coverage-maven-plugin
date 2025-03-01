@@ -1,4 +1,4 @@
-package com.github.surpsg
+package io.github.surpsg
 
 import java.io.File
 import java.net.URL
@@ -20,6 +20,11 @@ class ViolationsConfiguration(
     var minInstructions: Double = 0.0,
 
     var minCoverage: Double = MIN_COVERAGE_PROPERTY_DEFAULT
+)
+
+class Report(
+    var type: String? = null,
+    var enabled: Boolean = true,
 )
 
 internal const val MIN_COVERAGE_PROPERTY_DEFAULT: Double = -1.0;
