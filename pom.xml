@@ -59,7 +59,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <junit.version>4.13.2</junit.version>
 
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.13</jacoco.version>
         <delta.coverage.core.version>3.3.0</delta.coverage.core.version>
         <diff.coverage.plugin.version>0.3.3</diff.coverage.plugin.version>
     </properties>
