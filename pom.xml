@@ -54,7 +54,7 @@
         <maven.version>3.9.11</maven.version>
         <maven.plugin.tools.version>3.15.1</maven.plugin.tools.version>
 
-        <kotlin.version>2.2.0</kotlin.version>
+        <kotlin.version>2.2.10</kotlin.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <junit.version>4.13.2</junit.version>
