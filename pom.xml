@@ -52,7 +52,7 @@
         <diff.source>HEAD</diff.source>
 
         <maven.version>3.9.11</maven.version>
-        <maven.plugin.tools.version>3.15.1</maven.plugin.tools.version>
+        <maven.plugin.tools.version>3.15.2</maven.plugin.tools.version>
 
         <kotlin.version>2.2.21</kotlin.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
