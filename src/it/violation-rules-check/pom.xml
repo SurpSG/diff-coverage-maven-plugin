@@ -36,7 +36,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>com.github.surpsg</groupId>
+        <groupId>io.github.surpsg</groupId>
         <artifactId>diff-coverage-maven-plugin</artifactId>
 
         <configuration>

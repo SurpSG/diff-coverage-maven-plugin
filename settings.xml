@@ -10,7 +10,7 @@
                 <gpg.executable>gpg</gpg.executable>
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
-                <gpg.keyname>89F7AE0A4A492CB498C38550A88841D8AA4169C3</gpg.keyname>
+                <gpg.keyname>9DBA3212DC5C0322927BE20010206DD4CF5F9FF3</gpg.keyname>
                 <gpg.passphraseServerId>${gpg.keyname}</gpg.passphraseServerId>
                 <gpg.defaultKeyring>false</gpg.defaultKeyring>
             </properties>
