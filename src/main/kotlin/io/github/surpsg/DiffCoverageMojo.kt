@@ -59,10 +59,7 @@ class DiffCoverageMojo : AbstractMojo() {
 
         DeltaReportFacadeFactory
             .buildFacade(diffCoverageConfig.coverageEngine)
-            .generateReports(
-                outputDirectory.absoluteFile.resolve("delta-coverage-summary.json").toPath(),
-                diffCoverageConfig,
-            )
+            .generateReports(diffCoverageConfig)
     }
 
     private fun logPluginProperties(diffCoverageConfig: DeltaCoverageConfig) {
@@ -88,7 +85,7 @@ class DiffCoverageMojo : AbstractMojo() {
         )
 
         binaryCoverageFiles += collectExecFiles()
-        sourceFiles += reactorProjects.map { it.compileSourceRoots }.flatten().map { File(it) }.toSet()
+        sourceFiles += reactorProjects.flatMap { it.compileSourceRoots }.map { File(it) }.toSet()
         classFiles += collectClassesFiles().throwIfEmpty("Classes collection")
 
         coverageRulesConfig = buildCoverageRulesConfig()
@@ -116,7 +113,7 @@ class DiffCoverageMojo : AbstractMojo() {
         return CoverageRulesConfig {
             failOnViolation = violations.failOnViolation
             violationRules += if (isMinCoverageSet) {
-                CoverageEntity.values().map { entity ->
+                CoverageEntity.entries.map { entity ->
                     ViolationRule { coverageEntity = entity; minCoverageRatio = violations.minCoverage }
                 }
             } else {
