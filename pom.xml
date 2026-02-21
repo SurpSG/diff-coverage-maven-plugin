@@ -61,7 +61,7 @@
 
         <jacoco.version>0.8.14</jacoco.version>
         <delta.coverage.core.version>3.6.0</delta.coverage.core.version>
-        <diff.coverage.plugin.version>1.1.0</diff.coverage.plugin.version>
+        <diff.coverage.plugin.version>1.0.0</diff.coverage.plugin.version>
     </properties>
 
     <dependencies>
