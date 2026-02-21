@@ -6,7 +6,7 @@
     <artifactId>diff-coverage-maven-plugin</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>maven-plugin</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <description>
         Diff coverage maven plugin builds code coverage report of new and modified code based on a provided diff
     </description>
@@ -61,7 +61,7 @@
 
         <jacoco.version>0.8.14</jacoco.version>
         <delta.coverage.core.version>3.6.0</delta.coverage.core.version>
-        <diff.coverage.plugin.version>1.0.0</diff.coverage.plugin.version>
+        <diff.coverage.plugin.version>1.1.0</diff.coverage.plugin.version>
     </properties>
 
     <dependencies>

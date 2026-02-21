@@ -1,5 +1,13 @@
 # Diff-Coverage Maven plugin
 
+## 1.1.0
+
+- Added Java 25 class files support
+
+### Dependencies updates
+- JaCoCo 0.8.14
+- delta-coverage-core 3.6.0
+
 ## 1.0.0
 
 - Changed group id from `com.github.surpsg` to `io.github.surpsg`
