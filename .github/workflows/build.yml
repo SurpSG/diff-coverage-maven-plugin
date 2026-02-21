@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      issues: read
+      pull-requests: write
+      checks: write
 
     steps:
     - name: 📥 Checkout
@@ -27,8 +31,14 @@ jobs:
     - name: 🔨 Build with Maven
       run: ./mvnw clean install --file pom.xml -Ddiff.source="refs/remotes/origin/$GITHUB_BASE_REF" -e
 
+    - name: 📈 Publish Delta Coverage Report
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: gw-kit/delta-coverage-action@v1
+      with:
+        summary-report-base-path: target/site/coverage-reports/
+
     - name: 📦 Expose Integration Tests Build Logs
-      if: always()
+      if: ${{ always() }}
       uses: actions/upload-artifact@master
       with:
         name: int-tests-artifacts
