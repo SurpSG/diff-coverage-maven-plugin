@@ -35,7 +35,7 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: gw-kit/delta-coverage-action@v1
       with:
-        summary-report-base-path: target/site/coverage-reports/
+        summary-report-base-path: target/site/
 
     - name: 📦 Expose Integration Tests Build Logs
       if: ${{ always() }}
