@@ -1,0 +1,14 @@
+===================================================================
+--- a/src/main/java/com/test/Example.java	(revision 9e78667391946d3461759f5589b67d3a676d8ce7)
++++ b/src/main/java/com/test/Example.java	(date 1593433398791)
+@@ -5,7 +5,10 @@
+ 	public void sayHello(boolean a) {
+ 		if (a) {
+ 			System.out.println("if");
++		} else {
++			System.out.println("else");
+ 		}
++		System.out.println("return");
+ 	}
+
+ }
