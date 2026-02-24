@@ -23,7 +23,7 @@ gpg --list-keys --keyid-format short
 
 3. Publish the key
 ```bash
-gpg --keyserver hkp://keyserver.ubuntu.com --send-keys <YOUR_KEY_ID>
+gpg --keyserver hkp://pgp.mit.edu --send-keys <YOUR_KEY_ID>
 ```
 
 4. Export the private key for signing
