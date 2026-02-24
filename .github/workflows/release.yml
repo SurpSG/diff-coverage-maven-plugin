@@ -27,23 +27,23 @@ jobs:
         java-version: 25
         cache: maven
         server-id: central
-        server-username: CENTRAL_USERNAME
-        server-password: CENTRAL_PASSWORD
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        server-username: MAVEN_CENTRAL_USER
+        server-password: MAVEN_CENTRAL_PASS
+        gpg-private-key: ${{ secrets.SIGNING_KEY }}
 
     - name: 🏷️ Extract Version
       id: version
       run: |
-        VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+        VERSION=$(./mvnw help:evaluate -Dexpression=project.version -B -q -DforceStdout)
+        echo "version: $VERSION"
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
     - name: 📦 Publish to Maven Central
       env:
-        CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-        CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      run: ./mvnw clean deploy -Prelease -e
+        MAVEN_CENTRAL_USER: ${{ secrets.MAVEN_CENTRAL_USER }}
+        MAVEN_CENTRAL_PASS: ${{ secrets.MAVEN_CENTRAL_PASS }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      run: ./mvnw clean deploy -B -ntp -Prelease -e
 
     - name: 🏷️ Create GitHub Release
       id: gh-release
@@ -60,7 +60,7 @@ jobs:
             target_commitish: context.sha,
           });
           core.setOutput('url', release.html_url);
-          core.note(`Created release ${release.html_url}`);
+          core.notice(`Created release ${release.html_url}`);
 
     - name: 🔀 Merge to master
       uses: actions/github-script@v7
