@@ -43,7 +43,7 @@ jobs:
         MAVEN_CENTRAL_USER: ${{ secrets.MAVEN_CENTRAL_USER }}
         MAVEN_CENTRAL_PASS: ${{ secrets.MAVEN_CENTRAL_PASS }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      run: ./mvnw clean deploy -B -ntp -Prelease -e
+      run: ./mvnw clean deploy -B -ntp -Prelease -e -Dgpg.passphrase="$GPG_PASSPHRASE"
 
     - name: 🏷️ Create GitHub Release
       id: gh-release

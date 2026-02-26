@@ -35,11 +35,50 @@ gpg --armor --export-secret-key <YOUR_KEY_ID>
 
 ## Publishing the plugin
 
+### Prerequisites
+
+`~/.m2/settings.xml` must contain Maven Central credentials and GPG config:
+```xml
+<settings>
+    <servers>
+        <server>
+            <id>central</id>
+            <username>MAVEN_CENTRAL_USERNAME</username>
+            <password>MAVEN_CENTRAL_TOKEN</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>ossrh</activeProfile>
+    </activeProfiles>
+</settings>
+```
+
+`GPG_PASSPHRASE` environment variable must be set (e.g. in `~/.zshrc`).
+
+### Local publish
+
 ```bash
-mvn clean deploy -Dgpg.passphrase="<password>" -Prelease
+./mvnw clean deploy -Prelease -B -ntp -DskipTests -Dinvoker.skip=true
 ```
 where:
-- `password` - GPG key passphrase
+- `-Prelease` - activates the `release` profile (GPG signing, javadoc JAR, publishing to Maven Central)
+- `-B` - batch (non-interactive) mode
+- `-ntp` - no transfer progress, reduces log noise
+- `-DskipTests` - skips unit tests
+- `-Dinvoker.skip=true` - skips integration tests
+
+### CI publish
+
+Triggered via `workflow_dispatch` on a `release/*` branch. See `.github/workflows/release.yml`.
 
 ## Setup project for publishing
 
